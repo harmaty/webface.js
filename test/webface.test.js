@@ -1,0 +1,1 @@
+import "./attributable.test.js";
