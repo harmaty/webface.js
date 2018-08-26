@@ -4,7 +4,7 @@
   "description": "A frontend framework for creating interfaces (uses components & streams)",
   "main": "lib/webface.js",
   "scripts": {
-    "test": "mocha-headless-chrome -f http://localhost:8080/mocha.html"
+    "test": "mocha-headless-chrome"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,9 @@
     "chai": "^4.1.2",
     "chai-spies": "",
     "mocha": "^5.2.0",
-    "mocha-headless-chrome": "^2.0.1"
+    "mocha-headless-chrome": "^2.0.1",
+    "express": "",
+    "pug": ""
   },
   "runtimeArgs": [
     "--experimental-modules"
