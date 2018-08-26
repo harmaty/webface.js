@@ -5,11 +5,10 @@ app.set('view engine', 'pug')
 
 app.get("/", function (req, res) {
   var file = req.query.file;
-  if(file == "")
+  if(file == "" || file == null)
     file = "webface.test.js";
   else if(file.startsWith("test"))
     file = file.replace("test", "");
-  
 
   fs.readFile(`test/mocha.html`, 'utf8', function(err, contents) {
     res.render(__dirname + "/test/mocha.pug", { file: file });
