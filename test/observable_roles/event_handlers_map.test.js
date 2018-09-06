@@ -1,6 +1,4 @@
-import { EventHandlersMap } from './lib/observable_roles/event_handlers_map.js'
-//import { Publisher        } from './lib/observable_roles/publisher.js'
-//import { Subscriber       } from './lib/observable_roles/subscriber.js'
+import { EventHandlersMap } from '../lib/observable_roles/event_handlers_map.js'
 
 describe('observable_roles', function() {
 
