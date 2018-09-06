@@ -20,6 +20,8 @@ app.get(/.+/, function (req, res) {
   fs.readFile(`test/${req.path}`, 'utf8', function(err, contents) {
     if(fn.endsWith(".js"))
       res.type("application/javascript");
+    else if(fn.endsWith(".css"))
+      res.type("text/css");
     else
       res.type("text/html");
     res.end(contents);

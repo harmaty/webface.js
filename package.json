@@ -22,9 +22,9 @@
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-spies": "",
+    "express": "",
     "mocha": "^5.2.0",
     "mocha-headless-chrome": "^2.0.1",
-    "express": "",
     "pug": ""
   },
   "runtimeArgs": [
