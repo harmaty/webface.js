@@ -1,6 +1,7 @@
+import mixin from './lib/utils/mixin.js'
 import { Attributable, UndefinedAttributeError } from './lib/attributable.js'
 
-class Dummy extends Attributable {
+class Dummy extends mixin(Attributable) {
   constructor() {
     super();
     this.attribute_names = ["caption", "title", "attr3"];

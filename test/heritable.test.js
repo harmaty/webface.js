@@ -1,4 +1,7 @@
+import mixin from './lib/utils/mixin.js'
 import { Heritable } from './lib/heritable.js'
+
+class HeritableClass extends mixin(Heritable) {}
 
 describe('Heritable', function() {
 
@@ -8,13 +11,13 @@ describe('Heritable', function() {
   var spy;
 
   beforeEach(function() {
-    parent = new Heritable();
+    parent = new HeritableClass();
     for(var i=0; i < 5; i++) {
-      children_level_1.push(new Heritable());
+      children_level_1.push(new HeritableClass());
       children_level_1[i].id = `l1_child${i+1}`;
     }
     for(var i=0; i < 5; i++) {
-      children_level_2.push(new Heritable());
+      children_level_2.push(new HeritableClass());
       children_level_2[i].id = `l2_child${i+1}`;
     }
   });
