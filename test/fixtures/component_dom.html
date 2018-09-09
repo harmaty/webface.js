@@ -1,0 +1,40 @@
+<body>
+  <div attr="root_value" data-component-class="RootComponent" data-component-roles="role1,role2">
+
+    <div data-component-property="property1">value for property 1 - a</div>
+    <div data-component-property="writeable_property1"></div>
+    <div data-component-attribute-properties="writeable_property2:data-writeable-property2" data-writeable-property2="null"></div>
+    <div data-component-property="writeable_property3">writeable_property3 value</div>
+
+    <div attr="value1">
+      <div attr="value2">
+      </div>
+      <div attr="value2">
+        <div attr="value3">
+          <div data-component-property="property1">value for property 1 - b</div>
+          <div data-component-attribute-properties="property1:data-property1" data-property1="value for property 1 - c"></div>
+          <div data-component-attribute-properties="property2:data-property2" data-property2="1"></div>
+          <div data-component-attribute-properties="property2:data-property2" data-property2="value for property 2 - b"></div>
+          <div data-component-attribute-properties="property3:data-property3" data-property3="1.23"></div>
+        </div>
+      </div>
+    </div>
+
+    <div data-component-part="part1">
+      <div data-component-part="part2"></div>
+    </div>
+    <div data-component-part="part2"></div>
+    
+    <div data-component-part="part3"></div>
+    <div data-component-class="MyComponent">
+      <div data-component-part="part3"></div> <!-- ignored by findAllParts() because it's inside another component -->
+    </div>
+    <div data-component-class="MyComponent2"></div>
+
+    <div class="RemovableComponent"></div>
+
+  </div> <!-- Root Component close -->
+  <div data-component-template="ComponentDomClass">ComponentDomClass template</div>
+
+
+</body>
