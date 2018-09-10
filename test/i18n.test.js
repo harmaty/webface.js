@@ -1,4 +1,4 @@
-import { I18n, } from '../lib/modules/i18n.js'
+import { I18n, } from './lib/i18n.js'
 
 describe('I18n', function() {
 
@@ -12,7 +12,7 @@ describe('I18n', function() {
     i18n.loadData(doc);
   });
 
-  it("substitues argument placeholders in a String for their values", function() {
+  it("substitutes argument placeholders in a String for their values", function() {
     chai.expect(i18n._subArgs({ "h" : "hello", "w": "world" }, "This is a string that says %h %w in your language")).to.equal("This is a string that says hello world in your language");
   });
 

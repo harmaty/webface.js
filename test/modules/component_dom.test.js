@@ -1,6 +1,6 @@
 import mixin from '../lib/utils/mixin.js'
 import { fetch_dom    } from '../test_utils.js'
-import { Attributable } from '../lib/attributable.js'
+import { Attributable } from '../lib/modules/attributable.js'
 import { ComponentDom } from '../lib/modules/component_dom.js'
 
 class ComponentDomClass extends mixin(ComponentDom,Attributable) {

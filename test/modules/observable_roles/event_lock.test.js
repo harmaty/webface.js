@@ -1,4 +1,4 @@
-import { EventLock } from '../lib/observable_roles/event_lock.js'
+import { EventLock } from '../../lib/modules/observable_roles/event_lock.js'
 
 describe('observable_roles', function() {
 
