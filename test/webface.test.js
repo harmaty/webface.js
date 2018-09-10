@@ -6,3 +6,5 @@ import "./observable_roles/publisher.test.js";
 import "./observable_roles/event_lock.test.js";
 import "./validatable.test.js";
 import "./modules/component_dom.test.js";
+import "./modules/i18n.test.js";
+import "./utils/map_utils.test.js";
