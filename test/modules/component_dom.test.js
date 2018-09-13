@@ -1,9 +1,9 @@
-import mixin from '../lib/utils/mixin.js'
+import { mixins, mix  } from '../lib/utils/mixin.js'
 import { fetch_dom    } from '../test_utils.js'
 import { Attributable } from '../lib/modules/attributable.js'
 import { ComponentDom } from '../lib/modules/component_dom.js'
 
-class ComponentDomClass extends mixin(ComponentDom,Attributable) {
+class ComponentDomClass extends mixins(ComponentDom,Attributable) {
   constructor() {
     super();
     this.attribute_names = ["property1", "property2", "property3", "writeable_property1", "writeable_property2", "writeable_property3"];
@@ -160,7 +160,7 @@ describe('ComponentDom', function() {
   });
 
   it("removes element from the dom", function() {
-    var component2 = new ComponentDom();
+    var component2 = new ComponentDomClass();
     component2.dom_element = component_dom.firstDomDescendantOrSelfWithAttr(dom, { attr_name: "class", attr_value: "RemovableComponent" });
     component2._removeDomElement();
     chai.expect(component_dom.firstDomDescendantOrSelfWithAttr(dom, { attr_name: "data-component-class", attr_value: "RemovableComponent" })).to.be.null;

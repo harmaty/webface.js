@@ -1,4 +1,7 @@
+import { mixins, mix } from '../../lib/utils/mixin.js'
 import { EventLock } from '../../lib/modules/observable_roles/event_lock.js'
+
+class EventLockDummy extends mixins(EventLock) {}
 
 describe('observable_roles', function() {
 
@@ -7,7 +10,7 @@ describe('observable_roles', function() {
     var dummy;
 
     beforeEach(function() {
-      dummy = new EventLock();
+      dummy = new EventLockDummy();
       dummy.event_lock_for.add("click");
       dummy.event_lock_for.add("submit.click");
     });

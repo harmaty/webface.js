@@ -1,8 +1,10 @@
+import { mixins, mix } from '../../lib/utils/mixin.js'
 import { Publisher  } from '../../lib/modules/observable_roles/publisher.js'
 import { Subscriber } from '../../lib/modules/observable_roles/subscriber.js'
 import { EventHandlersMap } from '../../lib/modules/observable_roles/event_handlers_map.js'
 
-class SubscriberDummy extends Subscriber {
+class PublisherDummy extends mixins(Publisher) {}
+class SubscriberDummy extends mixins(Subscriber) {
 
   constructor() {
     super();
@@ -25,7 +27,7 @@ describe('observable_roles', function() {
 
     beforeEach(function() {
       subscriber = new SubscriberDummy();
-      publisher  = new Publisher();
+      publisher  = new PublisherDummy();
     });
 
     it('publisher allows subscribers to be added into and removed from its list of subscribers', function() {

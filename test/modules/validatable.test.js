@@ -1,4 +1,4 @@
-import mixin from '../lib/utils/mixin.js'
+import { mixins, mix  } from '../lib/utils/mixin.js'
 import { Validatable  } from '../lib/modules/validatable.js'
 import { Attributable } from '../lib/modules/attributable.js'
 
@@ -6,7 +6,7 @@ class MyValidator {
   _validateCustomStuff2(v) { return false; }
 }
 
-class Dummy extends mixin(Attributable, Validatable) {
+class Dummy extends mixins(Attributable,Validatable) {
 
   constructor() {
     super();
@@ -31,7 +31,10 @@ class Dummy extends mixin(Attributable, Validatable) {
 
       'custom_message1' :  { 'isNotEmpty' : { 'value': true, 'message': "CUSTOM MESSAGE" } },
       'custom_function_attr' :  { 'function' : { 'name': 'validateCustomStuff', 'message': "FUNCTION RETURNED FALSE" }},
-      'custom_function_attr2' : { 'object': new MyValidator(), 'function' : { 'name': 'validateCustomStuff2', 'message': "FUNCTION RETURNED FALSE" }}
+      'custom_function_attr2' : { 'object': new MyValidator(), 'function' : { 'name': 'validateCustomStuff2', 'message': "FUNCTION RETURNED FALSE" }},
+
+      // This validation shall be ignored as it contains a . (dot) which means it's a descendant validation.
+      'descendant.attr1' : { 'isMoreThan' : 15  }
     };
   }
 

@@ -1,7 +1,7 @@
-import mixin from '../lib/utils/mixin.js'
+import { mixins, mix } from '../lib/utils/mixin.js'
 import { Heritable } from '../lib/modules/heritable.js'
 
-class HeritableClass extends mixin(Heritable) {}
+class HeritableClass extends mixins(Heritable) {}
 
 describe('Heritable', function() {
 

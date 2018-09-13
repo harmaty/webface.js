@@ -1,8 +1,10 @@
+import { mixins, mix }      from '../../lib/utils/mixin.js'
 import { Subscriber }       from '../../lib/modules/observable_roles/subscriber.js'
 import { Publisher }        from '../../lib/modules/observable_roles/publisher.js'
 import { EventHandlersMap } from '../../lib/modules/observable_roles/event_handlers_map.js'
 
-class SubscriberDummy extends Subscriber {
+class PublisherDummy extends mixins(Publisher) {}
+class SubscriberDummy extends mixins(Subscriber) {
 
   constructor() {
     super();
@@ -41,7 +43,7 @@ describe('observable_roles', function() {
 
     beforeEach(function() {
       subscriber = new SubscriberDummy();
-      publisher  = new Publisher();
+      publisher  = new PublisherDummy();
     });
 
     it('uses a particular role for handling the published event', function() {
@@ -67,8 +69,8 @@ describe('observable_roles', function() {
     });
 
     it('handles events from two different children with two different roles using the same handler', function() {
-      var publisher1 = new Publisher();
-      var publisher2 = new Publisher();
+      var publisher1 = new PublisherDummy();
+      var publisher2 = new PublisherDummy();
       publisher1.roles = ['role1'];
       publisher2.roles = ['role2'];
       publisher1.addObservingSubscriber(subscriber);
