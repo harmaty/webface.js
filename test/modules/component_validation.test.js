@@ -1,4 +1,4 @@
-import { mixins, mix }         from '../lib/utils/mixin.js'
+import { extend_as }           from '../lib/utils/mixin.js'
 import { I18n }                from '../lib/i18n.js'
 import { Attributable }        from '../lib/modules/attributable.js'
 import { Heritable }           from '../lib/modules/heritable.js'
@@ -6,7 +6,7 @@ import { Validatable }         from '../lib/modules/validatable.js'
 import { Publisher   }         from '../lib/modules/observable_roles/publisher.js'
 import { ComponentValidation, NoChildForValidations } from '../lib/modules/component_validation.js'
 
-class DummyComponent extends mixins(Validatable, Heritable, ComponentValidation, Publisher, Attributable) {
+class DummyComponent extends extend_as("ComponentDomClass").mixins(Validatable, Heritable, ComponentValidation, Publisher, Attributable) {
 
   constructor() {
     super();
@@ -32,7 +32,7 @@ class DummyComponent extends mixins(Validatable, Heritable, ComponentValidation,
 
 }
 
-class DummyChildComponent extends mixins(Validatable, Heritable, ComponentValidation, Publisher) {
+class DummyChildComponent extends extend_as("DummyChildComponent").mixins(Validatable, Heritable, ComponentValidation, Publisher) {
   constructor() {
     super();
     this.validations = {};
@@ -62,7 +62,6 @@ describe('ComponentValidation', function() {
     component.set("attr1", 2);
     component.set("attr2", 2);
     component.validate();
-    console.log(component.validation_errors_summary);
   });
 
   it("shows validation errors if they're found (with behave() method)", function() {

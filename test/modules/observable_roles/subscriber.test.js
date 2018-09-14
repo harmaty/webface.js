@@ -1,10 +1,10 @@
-import { mixins, mix }      from '../../lib/utils/mixin.js'
+import { extend_as }        from '../../lib/utils/mixin.js'
 import { Subscriber }       from '../../lib/modules/observable_roles/subscriber.js'
 import { Publisher }        from '../../lib/modules/observable_roles/publisher.js'
 import { EventHandlersMap } from '../../lib/modules/observable_roles/event_handlers_map.js'
 
-class PublisherDummy extends mixins(Publisher) {}
-class SubscriberDummy extends mixins(Subscriber) {
+class PublisherDummy  extends extend_as("PublisherDummy").mixins(Publisher) {}
+class SubscriberDummy extends extend_as("SubscriberDummy").mixins(Subscriber) {
 
   constructor() {
     super();

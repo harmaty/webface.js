@@ -1,9 +1,9 @@
-import { mixins, mix  } from '../lib/utils/mixin.js'
+import { extend_as    } from '../lib/utils/mixin.js'
 import { fetch_dom    } from '../test_utils.js'
 import { Attributable } from '../lib/modules/attributable.js'
 import { ComponentDom } from '../lib/modules/component_dom.js'
 
-class ComponentDomClass extends mixins(ComponentDom,Attributable) {
+class ComponentDomClass extends extend_as("ComponentDomClass").mixins(ComponentDom,Attributable) {
   constructor() {
     super();
     this.attribute_names = ["property1", "property2", "property3", "writeable_property1", "writeable_property2", "writeable_property3"];

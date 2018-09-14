@@ -10,3 +10,4 @@ import "./modules/component_dom.test.js";
 import "./i18n.test.js";
 import "./utils/map_utils.test.js";
 import "./utils/type_checker.test.js";
+import "./utils/mixin.test.js";

@@ -1,4 +1,4 @@
-import { mixins, mix  } from '../lib/utils/mixin.js'
+import { extend_as    } from '../lib/utils/mixin.js'
 import { Validatable  } from '../lib/modules/validatable.js'
 import { Attributable } from '../lib/modules/attributable.js'
 
@@ -6,7 +6,7 @@ class MyValidator {
   _validateCustomStuff2(v) { return false; }
 }
 
-class Dummy extends mixins(Attributable,Validatable) {
+class Dummy extends extend_as("Dummy").mixins(Attributable,Validatable) {
 
   constructor() {
     super();
