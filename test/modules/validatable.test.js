@@ -14,28 +14,29 @@ class Dummy extends extend_as("Dummy").mixins(Attributable,Validatable) {
     this.attribute_names = ['num1', 'num2', 'num3', 'enum1', 'enum2', 'null1', 'str1', 'str2', 'str3', 'str4', 'not_null1', 'not_empty1', 'custom_message1', 'custom_function_attr', "custom_function_attr2"];
 
     this.validations = {
-      'num1'  : { 'isNumeric'  : true },
-      'num2'  : { 'isLessThan' : 10   },
-      'num3'  : { 'isMoreThan' : 15   },
+      'num1'  : { 'isNumeric'  : true, "allow_null": true },
+      'num2'  : { 'isLessThan' : 10,   "allow_null": true },
+      'num3'  : { 'isMoreThan' : 15,   "allow_null": true },
 
-      'enum1' : { 'isOneOf'    : [1,2,3] },
-      'enum2' : { 'isNotOneOf' : [1,2,3] },
+      'enum1' : { 'isOneOf'    : [1,2,3], "allow_null": true },
+      'enum2' : { 'isNotOneOf' : [1,2,3], "allow_null": true },
 
-      'str1'  : { 'isLongerThan'     : 5  },
-      'str2'  : { 'isShorterThan'    : 10 },
-      'str3'  : { 'hasExactLengthOf' : 20 },
-      'str4'  : { 'matches'          : /^You're the one/ },
+      'str1'  : { 'isLongerThan'     : 5,  "allow_null": true },
+      'str2'  : { 'isShorterThan'    : 10, "allow_null": true },
+      'str3'  : { 'hasExactLengthOf' : 20, "allow_null": true },
+      'str4'  : { 'matches'          : /^You're the one/, "allow_null": true },
 
-      'not_null1'  : { 'isNotNull'  : true },
-      'not_empty1' : { 'isNotEmpty' : true },
+      'not_null1'  : { 'isNotNull'  : true                     },
+      'not_empty1' : { 'isNotEmpty' : true, "allow_null": true },
 
-      'custom_message1' :  { 'isNotEmpty' : { 'value': true, 'message': "CUSTOM MESSAGE" } },
-      'custom_function_attr' :  { 'function' : { 'name': 'validateCustomStuff', 'message': "FUNCTION RETURNED FALSE" }},
-      'custom_function_attr2' : { 'object': new MyValidator(), 'function' : { 'name': 'validateCustomStuff2', 'message': "FUNCTION RETURNED FALSE" }},
+      'custom_message1' :  { 'isNotEmpty' : { 'value': true, 'message': "CUSTOM MESSAGE" }, "allow_null": true  },
+      'custom_function_attr' :  { 'function' : { 'name': 'validateCustomStuff', 'message': "FUNCTION RETURNED FALSE" }, "allow_null": true },
+      'custom_function_attr2' : { 'object': new MyValidator(), 'function' : { 'name': 'validateCustomStuff2', 'message': "FUNCTION RETURNED FALSE" }, "allow_null": true },
 
       // This validation shall be ignored as it contains a . (dot) which means it's a descendant validation.
       'descendant.attr1' : { 'isMoreThan' : 15  }
     };
+
   }
 
   _validateCustomStuff() {
@@ -50,6 +51,16 @@ describe('Validatable', function() {
 
   beforeEach(function() {
     dummy = new Dummy();
+  });
+
+  it("removes errors on subsequent validations for valid fields", function() {
+    dummy.set("not_null1", "hello world");
+    dummy.set("num1", "hello world");
+    dummy.validate();
+    chai.expect(dummy.valid).to.be.false;
+    dummy.set("num1", 2);
+    dummy.validate();
+    chai.expect(dummy.valid).to.be.true;
   });
 
   /* NUMERIC VALIDATIONS */

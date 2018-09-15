@@ -21,22 +21,25 @@ class DummyComponent extends extend_as("ComponentDomClass").mixins(Validatable, 
     this.attribute_names = ["attr1", "attr2"];
 
     this.validations = {
-      "attr1"        : { "isMoreThan": { "value": 1, "i18n_message": "DummyComponent.attr1" }},
-      "attr2"        : { "isMoreThan": 1 },
-      "role2.attr2" :  { "isMoreThan": 1 },
-      "role3.attr3" :  { "isMoreThan": 1 }
+      "attr1"        : { "isMoreThan": { "value": 1, "i18n_message": "DummyComponent.attr1" }, "allow_null" : true },
+      "attr2"        : { "isMoreThan": 1, "allow_null" : true },
+      "role2.attr2" :  { "isMoreThan": 1, "allow_null" : true },
+      "role3.attr3" :  { "isMoreThan": 1, "allow_null" : true }
     }
   }
 
   t(key, component_name) { return this.i18n.t(key); }
+  behave() {}
 
 }
 
-class DummyChildComponent extends extend_as("DummyChildComponent").mixins(Validatable, Heritable, ComponentValidation, Publisher) {
+class DummyChildComponent extends extend_as("DummyChildComponent").mixins(Validatable, Heritable, ComponentValidation, Publisher, Attributable) {
   constructor() {
     super();
     this.validations = {};
+    this.attribute_names = ["attr2", "attr3"];
   }
+  behave() {}
 }
 
 var component;
@@ -59,13 +62,30 @@ describe('ComponentValidation', function() {
   });
 
   it("runs validations on itself", function() {
-    component.set("attr1", 2);
-    component.set("attr2", 2);
+    component.set("attr1", 1);
+    component.set("attr2", 1);
     component.validate();
+    chai.expect(component.valid).to.be.false;
   });
 
-  it("shows validation errors if they're found (with behave() method)", function() {
-    
+  it("fills #validation_errors_summary with all error messages", function() {
+    component.set("attr1", 1);
+    component.set("attr2", 1);
+    component._i18nize_validation_messages();
+    component.validate();
+    chai.expect(component.validation_errors_summary).to.equal("field 1 validation message, should be more than 1");
+  });
+
+  it("calls invokes 'hideErrors' or 'showErrors' behavior after validations are completed", function() {
+    var spy = chai.spy.on(component, 'behave');
+
+    component.set("attr1", 1);
+    component.validate();
+    chai.expect(spy).to.have.been.called.with('showErrors');
+
+    component.set("attr1", 2);
+    component.validate();
+    chai.expect(spy).to.have.been.called.with('hideErrors');
   });
 
   describe("with children", function() {
@@ -92,7 +112,21 @@ describe('ComponentValidation', function() {
     });
 
     it("runs validations on its children", function() {
-
+      component.children.push(child3);
+      component._addValidationsToChild(child2);
+      component._addValidationsToChild(child3);
+      child2.set('attr2', 1)
+      child3.set('attr3', 1)
+      component.validate();
+      chai.expect(component.valid).to.be.false;
+      chai.expect(child2.valid).to.be.false;
+      chai.expect(child3.valid).to.be.false;
+      child2.set('attr2', 2)
+      child3.set('attr3', 2)
+      component.validate();
+      chai.expect(component.valid).to.be.true;
+      chai.expect(child2.valid).to.be.true;
+      chai.expect(child3.valid).to.be.true;
     });
     
   });
