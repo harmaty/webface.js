@@ -1,6 +1,8 @@
-const express = require('express')
-const fs      = require('fs');
-const app     = express();
+const express  = require('express')
+var bodyParser = require('body-parser');
+const fs       = require('fs');
+const app      = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug')
 
 app.get("/", function (req, res) {
@@ -14,6 +16,12 @@ app.get("/", function (req, res) {
     res.render(__dirname + "/test/mocha.pug", { file: file });
   });
 })
+
+app.post("/report_error", function (req, res, next) {
+  //console.log(req.body);
+  res.type("text/plain");
+  res.end("OK");
+});
 
 app.get(/.+/, function (req, res) {
   var fn = req.path.substring(1);
