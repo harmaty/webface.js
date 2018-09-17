@@ -13,7 +13,7 @@ describe("Logmaster", function() {
   });
 
   it("captures the error and throws it after reporting if throw_exception flag is set to true", function() {
-    chai.expect(function() { logger.capture(new Error("error")) }).to.throw(Error);
+    chai.expect(function() { logger.capture(new Error("error")) }).to.throw();
     logger.throw_errors = false;
     logger.capture(new Error("error"))
   });
@@ -27,8 +27,11 @@ describe("Logmaster", function() {
     chai.expect(http_reporter_spy).to.have.been.called.exactly(1);
   });
 
-  it("converts error to string", function() {
-    chai.expect(logger._errorToString(new Error("hello error"))).to.equal("Error: hello error");
+  it("logs the stacktrace if error passed is Error", function() {
+    var console_reporter_spy = chai.spy.on(logger, "_report_to_console");
+    logger.throw_errors = false;
+    logger.capture(new Error("error"));
+    chai.expect(logger.last_error.stack_trace).to.not.be.empty;
   });
 
   describe("console reporter", function() {
