@@ -7,6 +7,7 @@ import "./modules/observable_roles/event_lock.test.js";
 import "./modules/validatable.test.js";
 import "./modules/component_validation.test.js";
 import "./modules/component_dom.test.js";
+import "./modules/component_heritage.test.js";
 import "./utils/map_utils.test.js";
 import "./utils/type_checker.test.js";
 import "./utils/mixin.test.js";
