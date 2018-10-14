@@ -1,4 +1,5 @@
 import '../webface_init.js'
+import { fetch_dom          } from '../test_utils.js'
 import { Component          } from './lib/component.js'
 import { ComponentBehaviors } from './lib/behaviors/component_behaviors.js'
 
@@ -8,14 +9,23 @@ class DummyBehaviors extends ComponentBehaviors {
 
 class DummyComponent extends Component {
   static get behaviors() { return [DummyBehaviors]; }
+  constructor() {
+    super();
+    this.attribute_names = ["caption"];
+  }
 }
 
 describe("Component", function() {
 
-  var component;
+  var component, dom;
 
   beforeEach(function() {
+  });
+
+  beforeEach(async function() {
+    dom = await fetch_dom("fixtures/component.html");
     component = new DummyComponent();
+    component.dom_element = dom;
   });
 
   describe("behaviors", function() {
@@ -63,5 +73,16 @@ describe("Component", function() {
     });
     
   });
+
+  describe("attribute callbacks", function() {
+
+    it("invokes the default callback and sets attribute value to the corresponding DOM element's text content", function() {
+      component.set("caption", "new value");
+      chai.expect(component.dom_element.querySelector('[data-component-property="caption"]').textContent).to.equal("new value");
+    });
+    
+  });
+
+  
     
 });
