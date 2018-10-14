@@ -13,3 +13,4 @@ import "./utils/type_checker.test.js";
 import "./utils/mixin.test.js";
 import "./i18n.test.js";
 import "./logmaster.test.js";
+import "./component.test.js";

@@ -1,4 +1,5 @@
-import { I18n, } from './lib/i18n.js'
+import '../webface_init.js'
+import { I18n } from './lib/i18n.js'
 
 describe('I18n', function() {
 
@@ -32,8 +33,19 @@ describe('I18n', function() {
     chai.expect(i18n.t("l1.l2.with_placeholder", { "x": "HELLO" })).to.equal("placeholder is HELLO");
   });
 
-  it("shows key that wasn't found instead of a translation", function() {
+  it("returns key that wasn't found instead of a translation", function() {
     chai.expect(i18n.t("l1.l2.non_existent_key")).to.equal("non existent key");
+  });
+
+  it("returns null if key wasn't found and #return_key_on_not_found is false", function() {
+    i18n.return_key_on_not_found = false;
+    chai.expect(i18n.t("l1.l2.non_existent_key")).to.be.null;
+    i18n.return_key_on_not_found = true;
+  });
+
+  it("reports to the console when translation is not found and #print_console_warning is set to true", function() {
+    i18n.t("l1.l2.non_existent_key");
+    chai.expect(window.webface.logmaster_print_spy).to.be.called.with("WARN: translation missing for \"l1.l2.non_existent_key\" in \"i18n\" translator(s).");
   });
 
 });
