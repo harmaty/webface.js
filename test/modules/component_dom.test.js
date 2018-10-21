@@ -10,6 +10,7 @@ class ComponentDomClass extends extend_as("ComponentDomClass").mixins(ComponentD
   }
 }
 
+var doc;
 var dom;
 var component_dom;
 var spy;
@@ -17,7 +18,9 @@ var spy;
 describe('ComponentDom', function() {
 
   before(async function() {
-    dom           = (await fetch_dom("fixtures/component_dom.html")).querySelector('[data-component-class="RootComponent"]');
+    doc = (await fetch_dom("fixtures/component_dom.html"));
+    dom = doc.querySelector('[data-component-class="RootComponent"]');
+    ComponentDomClass.owner_document = doc;
     component_dom = new ComponentDomClass();
     component_dom.dom_element = dom;
   });

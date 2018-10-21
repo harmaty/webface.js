@@ -1,4 +1,5 @@
 import '../webface_init.js'
+import { extend_as          } from '../lib/utils/mixin.js'
 import { fetch_dom          } from '../test_utils.js'
 import { Component          } from './lib/component.js'
 import { ComponentBehaviors } from './lib/behaviors/component_behaviors.js'
@@ -7,7 +8,7 @@ class DummyBehaviors extends ComponentBehaviors {
   hello() { return "hello"; }
 }
 
-class DummyComponent extends Component {
+class DummyComponent extends extend_as("DummyComponent").mix(Component).with() {
   static get behaviors() { return [DummyBehaviors]; }
   constructor() {
     super();
@@ -19,13 +20,11 @@ describe("Component", function() {
 
   var component, dom;
 
-  beforeEach(function() {
-  });
-
   beforeEach(async function() {
     dom = await fetch_dom("fixtures/component.html");
+    DummyComponent.owner_document = dom;
     component = new DummyComponent();
-    component.dom_element = dom;
+    component.dom_element = dom.querySelector('[data-component-class="DummyComponent"]');
   });
 
   describe("behaviors", function() {
@@ -83,6 +82,38 @@ describe("Component", function() {
     
   });
 
-  
+  describe("removing a component", function() {
+    
+    var child;
+
+    beforeEach(function() {
+      child = new DummyComponent();
+      component.addChild(child);
+    });
+
+    it("removes component from the parent's children list and its dom_element from the DOM", function() {
+      chai.expect(component.children).to.include(child);
+      child.remove();
+      chai.expect(component.children).to.not.include(child);
+    });
+
+    it("calls remove() on each of its children too if 'deep' flag is passed", function() {
+      var child2 = new DummyComponent();
+      var child3 = new DummyComponent();
+      child.addChild(child2);
+      child.addChild(child3);
+      chai.expect(child.children).to.include(child2);
+      chai.expect(child.children).to.include(child3);
+      child.remove({ deep: true });
+      chai.expect(child.children).to.be.empty;
+    });
+
+    it("removes its DOM element from the document", function() {
+      child.dom_element.setAttribute("id", "child_component");
+      child.remove();
+      chai.expect(component.dom_element.querySelector("#child_component")).to.be.null;
+    });
+    
+  });
     
 });
