@@ -115,5 +115,51 @@ describe("Component", function() {
     });
     
   });
+
+  describe("capturing events", function() {
+
+    var spy, child;
+
+    beforeEach(function() {
+      spy = chai.spy();
+      child = new DummyComponent();
+      child.event_handlers.add({ event: "event1", handler: spy });
+      component.addChild(child);
+    });
+    
+    it("applies the handler for the event", function() {
+      child.captureEvent("event1", ["#self"]);
+      chai.expect(spy).to.be.called.once;
+    });
+
+    it("publishes the event to the parent", function() {
+      child.roles.push("child_role_1");
+      component.event_handlers.add({ event: "event1", role: "child_role_1", handler: spy });
+      child.captureEvent("event1", ["#self"]);
+      chai.expect(spy).to.be.called.twice;
+    });
+
+    it("prevents the native event", function() {
+      var mouse_event = document.createEvent('MouseEvent');
+      mouse_event.initMouseEvent("mousedown");
+      var mouse_spy = chai.spy.on(mouse_event, "preventDefault");
+      child.event_handlers.add({ event: "mousedown", handler: function() {} });
+      child.captureEvent(mouse_event, ["#self"], { prevent_default: true, is_native: true });
+      chai.expect(mouse_spy).to.have.been.called.once;
+    });
+
+    it("adds event lock and disallows further invokation of handles for the same event, including the native event handler", function() {
+      var mouse_event = document.createEvent('MouseEvent');
+      mouse_event.initMouseEvent("mousedown");
+      var mouse_spy = chai.spy.on(mouse_event, "preventDefault");
+      child.event_handlers.add({ event: "mousedown", handler: spy });
+      child.event_lock_for.add("mousedown");
+      child.captureEvent(mouse_event, ["#self"], { is_native: true });
+      child.captureEvent(mouse_event, ["#self"], { is_native: true });
+      chai.expect(spy).to.have.been.called.once;
+      chai.expect(mouse_spy).to.have.been.called.once;
+    });
+
+  });
     
 });
