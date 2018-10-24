@@ -161,5 +161,66 @@ describe("Component", function() {
     });
 
   });
+
+  describe("listening to native events", function() {
+
+    var spy;
+
+    beforeEach(function() {
+      component.native_events = ["mousedown", "!mouseup", "part1.click", "!part2.[mouseup, mousedown]"];
+      // Calling this method again here even though it's automatically called
+      // when a Component#dom_element is assigned. We added #native_events and #event_handlers later,
+      // so we need to re-listen to native events.
+      component._listenToNativeEvents();
+    });
+
+    it("captures the native events from the component's dom_element", function() {
+      var e = new MouseEvent("mousedown");
+      var spy = chai.spy();
+      component.event_handlers.add({ event: "mousedown", handler: spy });
+      component.dom_element.dispatchEvent(e);
+      chai.expect(spy).to.have.been.called.once;
+    });
+
+    it("listens and captures events from component parts", function() {
+      var e = new MouseEvent("click");
+      var spy = chai.spy();
+      component.event_handlers.add({ event: "click", role: "self.part1", handler: spy });
+      component.findPart("part1").dispatchEvent(e);
+      chai.expect(spy).to.have.been.called.once;
+    });
+
+    it("doesn't prevent default native events handler if it sees ! (exclamation mark) in front of the event name", function() {
+      var mouseup_event   = new MouseEvent("mouseup");
+      var mousedown_event = new MouseEvent("mousedown");
+      var mouseup_spy     = chai.spy.on(mouseup_event, "preventDefault");
+      var mousedown_spy   = chai.spy.on(mousedown_event, "preventDefault");
+      component.event_handlers.add({ event: "mouseup",   handler: function() {} });
+      component.event_handlers.add({ event: "mousedown", handler: function() {} });
+      component.dom_element.dispatchEvent(mouseup_event);
+      component.dom_element.dispatchEvent(mousedown_event);
+      chai.expect(mouseup_spy).not.to.have.been.called.once;
+      chai.expect(mousedown_spy).to.have.been.called.once;
+    });
+
+    it("flattens native events", function() {
+      var mouseup_event         = new MouseEvent("mouseup");
+      var mousedown_event       = new MouseEvent("mousedown");
+      var mouseup_spy           = chai.spy.on(mouseup_event, "preventDefault");
+      var mousedown_spy         = chai.spy.on(mousedown_event, "preventDefault");
+      var mouseup_handler_spy   = spy = chai.spy();
+      var mousedown_handler_spy = spy = chai.spy();
+      component.event_handlers.add({ event: "mouseup", role: "self.part2",   handler: mouseup_handler_spy   });
+      component.event_handlers.add({ event: "mousedown", role: "self.part2", handler: mousedown_handler_spy });
+      component.findPart("part2").dispatchEvent(mouseup_event);
+      component.findPart("part2").dispatchEvent(mousedown_event);
+      chai.expect(mouseup_spy).not.to.have.been.called.once;
+      chai.expect(mousedown_spy).not.to.have.been.called.once;
+      chai.expect(mouseup_handler_spy).to.have.been.called.once;
+      chai.expect(mousedown_handler_spy).to.have.been.called.once;
+      chai.expect(component.native_events).to.eql(["mousedown", "!mouseup", "part1.click", "!part2.mouseup", "!part2.mousedown"]);
+    });
+    
+  });
     
 });
