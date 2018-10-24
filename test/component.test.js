@@ -208,8 +208,8 @@ describe("Component", function() {
       var mousedown_event       = new MouseEvent("mousedown");
       var mouseup_spy           = chai.spy.on(mouseup_event, "preventDefault");
       var mousedown_spy         = chai.spy.on(mousedown_event, "preventDefault");
-      var mouseup_handler_spy   = spy = chai.spy();
-      var mousedown_handler_spy = spy = chai.spy();
+      var mouseup_handler_spy   = chai.spy();
+      var mousedown_handler_spy = chai.spy();
       component.event_handlers.add({ event: "mouseup", role: "self.part2",   handler: mouseup_handler_spy   });
       component.event_handlers.add({ event: "mousedown", role: "self.part2", handler: mousedown_handler_spy });
       component.findPart("part2").dispatchEvent(mouseup_event);
@@ -219,6 +219,39 @@ describe("Component", function() {
       chai.expect(mouseup_handler_spy).to.have.been.called.once;
       chai.expect(mousedown_handler_spy).to.have.been.called.once;
       chai.expect(component.native_events).to.eql(["mousedown", "!mouseup", "part1.click", "!part2.mouseup", "!part2.mousedown"]);
+    });
+
+    it("cancels an event listener based on a name", function() {
+      var mouseup_event         = new MouseEvent("mouseup");
+      var mousedown_event       = new MouseEvent("mousedown");
+      var mouseup_handler_spy   = chai.spy();
+      var mousedown_handler_spy = chai.spy();
+      component.event_handlers.add({ event: "mouseup", role: "self.part2", handler: mousedown_handler_spy });
+      component.event_handlers.add({ event: "mousedown", handler: mousedown_handler_spy });
+      component._cancelNativeEventListenerFor("mousedown");
+      component._cancelNativeEventListenerFor("!part2.mouseup");
+
+      component.dom_element.dispatchEvent(mousedown_event);
+      component.findPart("part2").dispatchEvent(mouseup_event);
+
+      chai.expect(mousedown_handler_spy).not.to.have.been.called.once;
+      chai.expect(mouseup_handler_spy).not.to.have.been.called.once;
+      chai.expect(Object.keys(component.native_event_handlers)).not.to.include("part2.mouseup");
+      chai.expect(Object.keys(component.native_event_handlers)).not.to.include("mousedown");
+    });
+
+    it("cancels all native event listeners", function() {
+      component._cancelNativeEventListeners();
+      chai.expect(component.native_event_handlers).to.be.empty;
+    });
+
+    it("cancels some native event listeners", function() {
+      component._cancelNativeEventListeners(["part2.mouseup", "mousedown"]);
+      component._cancelNativeEventListeners("mouseup");
+      chai.expect(Object.keys(component.native_event_handlers)).not.to.include("part2.mouseup");
+      chai.expect(Object.keys(component.native_event_handlers)).not.to.include("mousedown");
+      chai.expect(Object.keys(component.native_event_handlers)).not.to.include("mouseup");
+      chai.expect(component.native_event_handlers).not.to.be.empty;
     });
     
   });
