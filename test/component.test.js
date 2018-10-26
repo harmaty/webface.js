@@ -29,6 +29,10 @@ describe("Component", function() {
 
   describe("behaviors", function() {
 
+    beforeEach(function() {
+      component._createBehaviors();
+    });
+
     it("instantiates behavior instances", function() {
       chai.expect(component.behavior_instances).to.have.lengthOf(1);
     });
@@ -160,6 +164,18 @@ describe("Component", function() {
       chai.expect(mouse_spy).to.have.been.called.once;
     });
 
+    it("passes the native event to the handler instead of the Component itself when a native event is handled", function() {
+      var passed_obj;
+      var mousedown_event = new MouseEvent("mousedown");
+      child.roles.push("child_role_1");
+      child.native_events.push("mousedown");
+      child._listenToNativeEvents();
+      child.event_handlers.add({ event: "mousedown", handler: function() {}});
+      component.event_handlers.add({ event: "mousedown", role: "child_role_1", handler: (self,e) => passed_obj=e, options: { "pass_native_event_object": true }});
+      child.dom_element.dispatchEvent(mousedown_event);
+      chai.expect(passed_obj instanceof Event).to.be.true;
+    });
+
   });
 
   describe("listening to native events", function() {
@@ -255,5 +271,6 @@ describe("Component", function() {
     });
     
   });
+
     
 });
