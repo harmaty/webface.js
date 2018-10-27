@@ -176,6 +176,12 @@ describe("Component", function() {
       chai.expect(passed_obj instanceof Event).to.be.true;
     });
 
+    it("captures its own event and runs the handler for it when one is published", function() {
+      component.event_handlers.add({ event: "mousedown", role: "#myself", handler: spy });
+      component.publishEvent("mousedown");
+      chai.expect(spy).to.have.been.called.once;
+    });
+
   });
 
   describe("listening to native events", function() {
