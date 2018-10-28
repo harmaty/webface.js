@@ -16,6 +16,8 @@ class DummyComponent extends extend_as("DummyComponent").mix(Component).with() {
   }
 }
 
+class RootComponent extends extend_as("RootComponent").mix(Component).with() {}
+
 describe("Component", function() {
 
   var component, dom;
@@ -276,6 +278,16 @@ describe("Component", function() {
       chai.expect(component.native_event_handlers).not.to.be.empty;
     });
     
+  });
+
+  it("gets root component", function() {
+    var child = new DummyComponent();
+    var root  = new RootComponent();
+    component.addChild(child);
+    root.addChild(component);
+    chai.expect(child.root_component).to.equal(root);
+    chai.expect(component.root_component).to.equal(root);
+    chai.expect(root.root_component).to.equal(root);
   });
 
     
