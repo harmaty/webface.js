@@ -14,3 +14,4 @@ import "./utils/mixin.test.js";
 import "./i18n.test.js";
 import "./logmaster.test.js";
 import "./component.test.js";
+import "./components/root_component.test.js";

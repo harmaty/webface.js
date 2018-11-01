@@ -148,20 +148,20 @@ describe('ComponentHeritage', function() {
     });
 
     it("calls a method on all children if this method exists", function() {
-      dummy.applyToChildren("hello", [1,2]);
+      dummy.applyToChildren("hello", { args: [1,2] });
       spies.forEach(function(s) {
         chai.expect(s).to.have.been.called.with(1,2).once;
       });
     });
 
     it("skips calling a method on a child if it doesn't exist", function() {
-      dummy.applyToChildren("hello2", [1,2]);
+      dummy.applyToChildren("hello2", { args: [1,2] });
       // no checks here, just making sure no errors are raised
     });
 
     it("only calls a method on a child if the condition function returns true", function() {
-      dummy.applyToChildren("hello", [1,2], false, function() { return true; });
-      dummy.applyToChildren("hello", [1,2], false, function() { return false; });
+      dummy.applyToChildren("hello", { args: [1,2], recursive: false, condition: function() { return true; }});
+      dummy.applyToChildren("hello", { args: [1,2], recursive: false, condition: function() { return false; }});
       spies.forEach(function(s) {
         chai.expect(s).to.have.been.called.with(1,2).once;
       });
@@ -169,7 +169,7 @@ describe('ComponentHeritage', function() {
 
     it("calls a method on the whole descedant tree if recursive is set to true", function() {
       var spy = chai.spy.on(dummy.children[2].children[0], "hello");
-      dummy.applyToChildren("hello", [1,2], true);
+      dummy.applyToChildren("hello", { args: [1,2], recursive: true });
       chai.expect(spy).to.have.been.called.with(1,2).once;
     });
 
