@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 const fs       = require('fs');
 const app      = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.set('view engine', 'pug')
 
 app.get("/", function (req, res) {
@@ -18,9 +19,18 @@ app.get("/", function (req, res) {
 })
 
 app.post("/report_error", function (req, res, next) {
-  //console.log(req.body);
   res.type("text/plain");
   res.end("OK");
+});
+
+app.post("/ajax_test", function (req, res, next) {
+  res.type("application/json");
+  res.end(JSON.stringify(req.body));
+});
+
+app.get("/ajax_test", function (req, res, next) {
+  res.type("application/json");
+  res.end(JSON.stringify(req.query));
 });
 
 app.get(/.+/, function (req, res) {
