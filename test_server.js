@@ -35,15 +35,33 @@ app.get("/ajax_test", function (req, res, next) {
 
 app.get(/.+/, function (req, res) {
   var fn = req.path.substring(1);
-  fs.readFile(`test/${req.path}`, 'utf8', function(err, contents) {
-    if(fn.endsWith(".js"))
-      res.type("application/javascript");
-    else if(fn.endsWith(".css"))
-      res.type("text/css");
-    else
-      res.type("text/html");
-    res.end(contents);
-  });
+  if(fn.endsWith("/")) fn = fn.slice(0, -1);
+
+  var fn_splitted = fn.split("/");
+  var fn_last_part = fn_splitted[fn_splitted.length - 1]
+
+
+  if(/^[^.]+$/.test(fn_last_part))
+    fn = fn + "/index.html";
+
+  if(fs.existsSync(`test/${fn}`)) {
+    //console.log(`Rendering test/${fn}`);
+    fs.readFile(`test/${fn}`, 'utf8', function(err, contents) {
+      if(fn.endsWith(".js"))
+        res.type("application/javascript");
+      else if(fn.endsWith(".css"))
+        res.type("text/css");
+      else
+        res.type("text/html");
+      res.end(contents);
+    });
+  }
+  else {
+    //console.log(`NOT FOUND test/${fn}`);
+    res.status(404).send("Not found");
+  }
+
+
 })
 
 app.listen(8080, () => console.log('Test server for Webface.js running on port 8080.'))

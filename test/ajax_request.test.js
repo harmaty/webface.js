@@ -35,7 +35,7 @@ describe("AjaxRequest", async function() {
     AjaxRequest.user_notification = message => user_error = message;
     try {
       await AjaxRequest.put(url + "/error", { "hello" : "world" }, data => put_result = data);
-      result = true; // no supposed to be called!
+      result = true; // not supposed to be called!
     } catch(AjaxRequestError)  {
       chai.expect(user_error).to.equal("Failed to connect to http://localhost:8080/ajax_test/error, Not Found (404)");
     }
