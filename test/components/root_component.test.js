@@ -33,7 +33,7 @@ describe("RootComponent", function() {
     var spy         = chai.spy.on(child1, "externalClickCallback");
     var click_event = new MouseEvent("click", { bubbles: true });
 
-    dom.dispatchEvent(click_event);
+    root.dom_element.dispatchEvent(click_event);
     child2.dom_element.dispatchEvent(click_event);
     child2.findPart("part1").dispatchEvent(click_event);
     child1.dom_element.dispatchEvent(click_event);
@@ -42,7 +42,7 @@ describe("RootComponent", function() {
   });
 
   it("loads global i18n", function() {
-    root._loadI18n(dom);
+    root._loadI18n(root.dom_element);
     chai.expect(root.t("l1.l2.l3")).to.equal("ok");
   });
 
