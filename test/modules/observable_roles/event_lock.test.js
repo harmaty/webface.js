@@ -11,8 +11,7 @@ describe('observable_roles', function() {
 
     beforeEach(function() {
       dummy = new EventLockDummy();
-      dummy.event_lock_for.add("click");
-      dummy.event_lock_for.add("submit.click");
+      dummy.event_lock_for = ["click", "submit.click"];
     });
 
     it("adds an event lock", function() {
@@ -44,6 +43,16 @@ describe('observable_roles', function() {
       chai.expect(dummy.hasEventLock("click")).to.be.true;
       chai.expect(dummy.hasEventLock("submit.click")).to.be.true;
       chai.expect(dummy.hasEventLock("click2")).to.be.false;
+    });
+
+    it("allows for arrays to be used in event_lock_for", function() {
+      dummy.event_lock_for = [["click", "touchend"]];
+      dummy.addEventLock("click");
+      dummy.addEventLock("touchend");
+      dummy.addEventLock("mouseover");
+      chai.expect(dummy.event_locks).to.include("click");
+      chai.expect(dummy.event_locks).to.include("touchend");
+      chai.expect(dummy.event_locks).to.not.include("mouseover");
     });
 
   });

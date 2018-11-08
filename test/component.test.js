@@ -191,7 +191,7 @@ describe("Component", function() {
     var spy;
 
     beforeEach(function() {
-      component.native_events = ["mousedown", "!mouseup", "part1.click", "!part2.[mouseup, mousedown]"];
+      component.native_events = ["mousedown", "!mouseup", "part1.click", "!part2.[mouseup, mousedown]", component.click_event];
       // Calling this method again here even though it's automatically called
       // when a Component#dom_element is assigned. We added #native_events and #event_handlers later,
       // so we need to re-listen to native events.
@@ -242,7 +242,7 @@ describe("Component", function() {
       chai.expect(mousedown_spy).not.to.have.been.called.once;
       chai.expect(mouseup_handler_spy).to.have.been.called.once;
       chai.expect(mousedown_handler_spy).to.have.been.called.once;
-      chai.expect(component.native_events).to.eql(["mousedown", "!mouseup", "part1.click", "!part2.mouseup", "!part2.mousedown"]);
+      chai.expect(component.native_events).to.eql(["mousedown", "!mouseup", "part1.click", "!part2.mouseup", "!part2.mousedown", "click"]);
     });
 
     it("cancels an event listener based on a name", function() {
