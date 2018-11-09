@@ -9,7 +9,7 @@ describe("PositionManager", function() {
   before(async function() {
     dom = (await fetch_dom("fixtures/position_manager.html")).querySelector("#root");
     el  = dom.querySelector("#positioned");
-    pos = new PositionManager();
+    pos = PositionManager;
   });
 
   beforeEach(function() {
