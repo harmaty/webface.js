@@ -3,6 +3,6 @@ import { PositionManager } from '../../lib/position_manager.js'
 
 var pos = new PositionManager();
 
-["placeByCenter", "placeByTopLeft", "placeByTopRight", "placeByBottomLeft", "placeByBottomRight", "placeAboveTopLeft", "placeBelowBottomLeft", "placeAboveTopRight", "placeBelowBottomRight", "placeAboveTopRightCorner", "placeAboveTopLeftCorner", "placeBelowBottomLeftCorner", "placeBelowBottomRightCorner"].forEach((i) => {
-  pos[i](document.querySelector(`#${i}_el`), document.querySelector(`#${i}_container`));
+["placeByCenter", "placeByTopLeft", "placeByTopRight", "placeByBottomLeft", "placeByBottomRight", "placeAboveTopLeft", "placeBelowBottomLeft", "placeAboveTopRight", "placeBelowBottomRight", "placeAboveTopRightCorner", "placeAboveTopLeftCorner", "placeBelowBottomLeftCorner", "placeBelowBottomRightCorner"].forEach((method) => {
+  pos[method](document.querySelector(`#${method}_el`), document.querySelector(`#${method}_container`));
 });
