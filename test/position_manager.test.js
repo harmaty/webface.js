@@ -20,12 +20,9 @@ describe("PositionManager", function() {
     el.style.height  = "10px"
   });
 
-  afterEach(function() {
-    pos.placeAt(el, 0, 0);
-  });
-
   after(function() {
     dom.remove();
+    el.remove();
   });
 
   it("gets element relative position", function() {
@@ -37,11 +34,12 @@ describe("PositionManager", function() {
   });
 
   it("places element at the correct position relative to its parent", function() {
-    pos.placeAt(el, 50, 50);
+    var dom_pos = dom.getBoundingClientRect();
+    pos.placeAt(el, dom_pos.left+50, dom_pos.top+50);
     chai.expect(pos.getRelPosition(el, dom)).to.eql({ 'x' : 50, 'y' : 50 });
   });
 
-  it("positions element inside its parent using relative measures", function() {
+  it("positions element inside its parent", function() {
     pos.placeBy(el, dom, { left: 0.5, top: 0.5, gravity_top: 0.5, gravity_left: 0.5 });
     chai.expect(pos.getRelPosition(el, dom)).to.eql({ 'x' : 40, 'y' : 45 });
   });
