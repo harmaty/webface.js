@@ -17,3 +17,4 @@ import "./ajax_request.test.js";
 import "./position_manager.test.js";
 import "./component.test.js";
 import "./components/root_component.test.js";
+import "./behaviors/component_behaviors.test.js";
