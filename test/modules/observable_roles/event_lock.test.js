@@ -25,6 +25,22 @@ describe('observable_roles', function() {
       chai.expect(dummy.event_locks).to.not.include("submit.mouseover");
     });
 
+    it("adds event locks in bulk", function() {
+      dummy.event_lock_for = ["click", "mouseover", "submit.mouseover", "submit.click"];
+      dummy.addEventLock(["click", "mouseover"]);
+      dummy.addEventLock(["click", "mouseover"], { publisher_roles: "submit" });
+      chai.expect(dummy.event_locks).to.include("click");
+      chai.expect(dummy.event_locks).to.include("mouseover");
+      chai.expect(dummy.event_locks).to.include("submit.click");
+      chai.expect(dummy.event_locks).to.include("submit.mouseover");
+    });
+
+    it("adds event locks event names from array, flattens it", function() {
+      dummy.event_lock_for = [["click", "touchend"]];
+      chai.expect(dummy.event_lock_for).to.include("click");
+      chai.expect(dummy.event_lock_for).to.include("touchend");
+    });
+
     it("removes an event lock", function() {
       dummy.addEventLock("click");
       dummy.addEventLock("click", { publisher_roles: "submit" });
@@ -36,6 +52,18 @@ describe('observable_roles', function() {
       chai.expect(dummy.event_locks).to.include("submit.click");
     });
 
+    it("removes event locks in bulk", function() {
+      dummy.event_lock_for = ["click", "mouseover", "submit.mouseover", "submit.click"];
+      dummy.addEventLock(["click", "mouseover"]);
+      dummy.addEventLock(["click", "mouseover"], { publisher_roles: "submit" });
+      dummy.removeEventLock(["click", "mouseover"]);
+      dummy.removeEventLock(["click", "mouseover"], { publisher_roles: "submit" });
+      chai.expect(dummy.event_locks).not.to.include("click");
+      chai.expect(dummy.event_locks).not.to.include("mouseover");
+      chai.expect(dummy.event_locks).not.to.include("submit.click");
+      chai.expect(dummy.event_locks).not.to.include("submit.mouseover");
+    });
+
     it("checks if event has a lock", function() {
       dummy.addEventLock("click");
       dummy.addEventLock("click2");
@@ -43,6 +71,9 @@ describe('observable_roles', function() {
       chai.expect(dummy.hasEventLock("click")).to.be.true;
       chai.expect(dummy.hasEventLock("submit.click")).to.be.true;
       chai.expect(dummy.hasEventLock("click2")).to.be.false;
+      chai.expect(dummy.hasEventLock(["click", "click2"])).to.be.true;
+      chai.expect(dummy.hasEventLock(["click", "click3"])).to.be.true;
+      chai.expect(dummy.hasEventLock(["click3", "click4"])).to.be.false;
     });
 
     it("allows for arrays to be used in event_lock_for", function() {

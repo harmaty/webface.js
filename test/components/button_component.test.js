@@ -1,49 +1,50 @@
 import '../webface_init.js'
-import { extend_as     } from '../lib/utils/mixin.js'
-import { fetch_dom     } from '../test_utils.js'
-import { Component     } from '../lib/component.js'
-import { RootComponent } from '../lib/components/root_component.js'
+import { extend_as       } from '../lib/utils/mixin.js'
+import { fetch_dom       } from '../test_utils.js'
+import { ButtonComponent } from '../lib/components/button_component.js'
 
-class DummyComponent extends extend_as("DummyComponent").mix(Component).with() {
-  constructor() { super(); }
-  externalClickCallback() {}
-}
-window.webface.component_classes["DummyComponent"] = DummyComponent;
+describe("ButtonComponent", function() {
 
-describe("RootComponent", function() {
-
-  var root, dom;
+  var button, dom, spy;
+  var click_event = new MouseEvent("click", { bubbles: true });
 
   beforeEach(async function() {
-    dom = await fetch_dom("fixtures/root_component.html");
-    RootComponent.owner_document = dom;
-    root = new RootComponent();
-    root.dom_element = dom;
-    root.initChildComponents();
+    dom = await fetch_dom("fixtures/button_component.html");
+    button = new ButtonComponent();
+    button.dom_element = dom;
+    button.afterInitialize();
   });
 
-  it("invokes externalClickCallback() on all children components except the one that triggered it", function() {
-
-    var child1      = root.children[0];
-    var child2      = root.children[1];
-    child1.native_events = ["!click"];
-    child2.native_events = ["!click"];
-    child2._listenToNativeEvents();
-
-    var spy         = chai.spy.on(child1, "externalClickCallback");
-    var click_event = new MouseEvent("click", { bubbles: true });
-
-    dom.dispatchEvent(click_event);
-    child2.dom_element.dispatchEvent(click_event);
-    child2.findPart("part1").dispatchEvent(click_event);
-    child1.dom_element.dispatchEvent(click_event);
-    chai.expect(spy).to.have.been.called.exactly(3);
-
+  it("calls lock() behavior on a click if the button is lockable", function() {
+    spy = chai.spy.on(button, "behave");
+    button.dom_element.dispatchEvent(click_event);
+    chai.expect(spy).to.have.been.called.with('lock');
   });
 
-  it("loads global i18n", function() {
-    root._loadI18n(dom);
-    chai.expect(root.t("l1.l2.l3")).to.equal("ok");
+  it("doesn't call lock() behavior on a click if the button is unlockable", function() {
+    spy = chai.spy.on(button, "behave");
+    button.set("lockable", "false");
+    button.dom_element.dispatchEvent(click_event);
+    chai.expect(spy).not.to.have.been.called.with('lock');
+  });
+
+  it("doesn't use the click event lock if button is unlockable", function() {
+    button.set("lockable", false);
+    button.afterInitialize();
+    button.dom_element.dispatchEvent(click_event);
+    chai.expect(button.event_locks.has("click")).to.be.false;
+  });
+
+  it("removes the event lock for click_event after button is unlocked", function() {
+    button.click_event    = ["click", "touchend"];
+    button.native_events  = ["click", "touchend"];
+    button.event_lock_for = ["click", "touchend"];
+    button.dom_element.dispatchEvent(click_event);
+    chai.expect(button.event_locks).to.include("click");
+    chai.expect(button.event_locks).to.include("touchend");
+    button.behave("unlock");
+    chai.expect(button.event_locks).not.to.include("click");
+    chai.expect(button.event_locks).not.to.include("touchend");
   });
 
 });

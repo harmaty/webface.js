@@ -45,10 +45,13 @@ app.get(/.+/, function (req, res) {
     fn = fn + "/index.html";
 
   if(fs.existsSync(`test/${fn}`)) {
-    //console.log(`Rendering test/${fn}`);
     fs.readFile(`test/${fn}`, 'utf8', function(err, contents) {
       if(fn.endsWith(".js"))
         res.type("application/javascript");
+      else if(fn.endsWith(".svg")) {
+        console.log(fn);
+        res.type("image/svg+xml");
+      }
       else if(fn.endsWith(".css"))
         res.type("text/css");
       else
@@ -57,7 +60,6 @@ app.get(/.+/, function (req, res) {
     });
   }
   else {
-    //console.log(`NOT FOUND test/${fn}`);
     res.status(404).send("Not found");
   }
 
