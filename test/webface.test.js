@@ -16,7 +16,13 @@ import "./logmaster.test.js";
 import "./ajax_request.test.js";
 import "./position_manager.test.js";
 import "./component.test.js";
+
+// Components
 import "./components/root_component.test.js";
 import "./components/button_component.test.js";
+import "./components/checkbox_component.test.js";
+
+// Behaviors
 import "./behaviors/component_behaviors.test.js";
 import "./behaviors/button_component_behaviors.test.js";
+import "./behaviors/checkbox_component_behaviors.test.js";

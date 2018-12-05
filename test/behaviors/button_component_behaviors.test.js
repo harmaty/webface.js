@@ -12,18 +12,18 @@ describe("ButtonComponentBehaviors", function() {
     behaviors = new ButtonComponentBehaviors(component);
   });
 
-  it("#disable behavior adds 'disabled=disabled' attribute to the dom_element", function() {
+  it("adds 'disabled=disabled' attribute to the dom_element on #disable behavior", function() {
     behaviors.disable();
     chai.expect(behaviors.dom_element.getAttribute("disabled")).to.equal("disabled");
   });
 
-  it("#enable behavior removes 'disabled' attribute from the dom_element", function() {
+  it("removes 'disabled' attribute from the dom_element on #enable behavior", function() {
     behaviors.disable();
     behaviors.enable();
     chai.expect(behaviors.dom_element.getAttribute("disabled")).to.be.null;
   });
 
-  it("#unlock behaviors removes the event lock for the click event", function() {
+  it("removes the event lock for the click event #unlock behavior", function() {
     var spy = chai.spy.on(behaviors.component, "removeEventLock");
     behaviors.unlock();
     chai.expect(spy).to.have.been.called.with(["click", "touchend"]);

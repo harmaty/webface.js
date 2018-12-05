@@ -9,7 +9,7 @@ describe("ButtonComponent", function() {
   var click_event = new MouseEvent("click", { bubbles: true });
 
   beforeEach(async function() {
-    dom = await fetch_dom("fixtures/button_component.html");
+    dom = (await fetch_dom("fixtures/button_component.html")).querySelector("div");
     button = new ButtonComponent();
     button.dom_element = dom;
     button.afterInitialize();
