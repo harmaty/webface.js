@@ -26,3 +26,4 @@ import "./components/checkbox_component.test.js";
 import "./behaviors/component_behaviors.test.js";
 import "./behaviors/button_component_behaviors.test.js";
 import "./behaviors/checkbox_component_behaviors.test.js";
+import "./behaviors/form_field_component_behaviors.test.js";
