@@ -61,6 +61,12 @@ describe('Attributable', function() {
     // Doesn't throw UndefinedAttributeError
   });
 
+  it("updates one attribute and throws an error if it doesn't exist", function() {
+    dummy.updateAttribute("title", "New Title");
+    chai.expect(dummy.get("title")).to.equal("New Title");
+    chai.expect(function() { dummy.updateAttribute( 'non_existent_attr', 'new caption' )}).to.throw(UndefinedAttributeError);
+  });
+
   it('runs callbacks on attributes after updating them in bulk', function() {
     dummy.attribute_callbacks["title"] = function() {}
     spy = chai.spy.on(dummy.attribute_callbacks, 'title');

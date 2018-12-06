@@ -1,8 +1,15 @@
-<div data-component-class="FormFieldComponent">
-  <input data-compoment-part="value_holder" id="value_holder"
+<div data-component-class="FormFieldComponent"  id="composite_form_field">
+  <input data-component-part="value_holder" id="value_holder"
        type="text"
        disabled="false"
-       name="checkbox1"
+       name="input1"
+       value="initial value"
        checked="false"/>
   <div data-component-property="validation_errors_summary" id="errors" style="display: none;"></div>
 </div>
+
+<input id="simple_form_field" data-component-class="FormFieldComponent"
+   type="text"
+   disabled="false"
+   name="input1"
+   checked="false"/>
