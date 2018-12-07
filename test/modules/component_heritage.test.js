@@ -113,12 +113,6 @@ describe('ComponentHeritage', function() {
       chai.expect(spy).to.have.been.called.with(dummy).once;
     });
 
-    it("calls _addValidationsToChild when adding a new child", function() {
-      var spy = chai.spy.on(dummy, "_addValidationsToChild");
-      dummy.addChild(dummy_child);
-      chai.expect(spy).to.have.been.called.once;
-    });
-
     it("calls _appendChildDomElement on the parent class, but only if child isn't in the DOM yet", function() {
       var spy = chai.spy.on(dummy, "_appendChildDomElement");
       dummy.addChild(dummy_child);

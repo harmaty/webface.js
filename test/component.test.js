@@ -290,5 +290,4 @@ describe("Component", function() {
     chai.expect(root.root_component).to.equal(root);
   });
 
-    
 });

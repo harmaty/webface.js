@@ -56,7 +56,7 @@ describe('ComponentValidation', function() {
   });
 
   it("separates descendant validations from the rest", function() {
-    component._separateDescendantValidations();
+    component.separateDescendantValidations();
     chai.expect(Object.keys(component.validations)).to.include("attr1");
     chai.expect(Object.keys(component.validations)).to.not.include("role2.attr2");
   });
@@ -99,22 +99,28 @@ describe('ComponentValidation', function() {
       child2.roles.push("role2");
       child3.roles.push("role3");
       component.children.push(child2);
-      component._separateDescendantValidations()
+      component.separateDescendantValidations()
     });
 
     it("adds validations to the child component if the role fits", function() {
 
-      component._addValidationsToChild(child2);
+      component.addValidationsToChild(child2);
       chai.expect(Object.keys(child2.validations)).to.include("attr2");
 
-      chai.expect(function() { component._addValidationsToChild(child3); }).to.throw(NoChildForValidations);
+      chai.expect(function() { component.addValidationsToChild(child3); }).to.throw(NoChildForValidations);
       chai.expect(Object.keys(child3.validations)).to.not.include("role3.attr3");
+    });
+
+    it("adds descendant validations from its parent on initialization", function() {
+      child2.parent = component;
+      child2.afterInitialize();
+      chai.expect(Object.keys(child2.validations)).to.include("attr2");
     });
 
     it("runs validations on its children", function() {
       component.children.push(child3);
-      component._addValidationsToChild(child2);
-      component._addValidationsToChild(child3);
+      component.addValidationsToChild(child2);
+      component.addValidationsToChild(child3);
       child2.set('attr2', 1)
       child3.set('attr3', 1)
       component.validate();
