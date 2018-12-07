@@ -18,7 +18,7 @@ class DummyComponent extends extend_as("ComponentDomClass").mixins(Validatable, 
     var doc = new DOMParser().parseFromString(body, "text/xml");
     this.i18n.loadData(doc);
 
-    this.attribute_names = ["attr1", "attr2"];
+    this.attribute_names = ["attr1", "attr2", "validation_errors_summary"];
 
     this.validations = {
       "attr1"        : { "isMoreThan": { "value": 1, "i18n_message": "DummyComponent.attr1" }, "allow_null" : true },
@@ -73,7 +73,7 @@ describe('ComponentValidation', function() {
     component.set("attr2", 1);
     component._i18nize_validation_messages();
     component.validate();
-    chai.expect(component.validation_errors_summary).to.equal("field 1 validation message, should be more than 1");
+    chai.expect(component.get("validation_errors_summary")).to.equal("field 1 validation message, should be more than 1");
   });
 
   it("calls invokes 'hideErrors' or 'showErrors' behavior after validations are completed", function() {
