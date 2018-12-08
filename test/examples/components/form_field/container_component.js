@@ -6,7 +6,6 @@ export class ContainerComponent extends extend_as("ContainerComponent").mix(Comp
 
     super();
 
-    // ISSUE: This var is set after _separateDescendantValidations() and  _addValidationsToChild() are run
     this.validations = { 'form_field.value': { 'isNumeric' : true }};
 
     this.event_handlers.add({ event: "click", role: "validate", handler: (self, child) => {
