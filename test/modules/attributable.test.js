@@ -4,9 +4,18 @@ import { Attributable, UndefinedAttributeError } from '../lib/modules/attributab
 class Dummy extends extend_as("Dummy").mixins(Attributable) {
   constructor() {
     super();
-    this.attribute_names = ["caption", "title", "attr3"];
-    this.default_attribute_values = { "attr3": "default_value" };
+    this.attribute_names = ["caption", "title", "attr3", "custom_getter_setter_attr"];
+    this.default_attribute_values = { "attr3": "default_value",  "custom_getter_setter_attr" : "hello" };
   }
+
+  _get_attr_custom_getter_setter_attr() {
+    return this.attributes["custom_getter_setter_attr"] + "!";
+  }
+
+  _set_attr_custom_getter_setter_attr(value) {
+    this.attributes["custom_getter_setter_attr"] = value + " (set)";
+  }
+
 }
 
 describe('Attributable', function() {
@@ -92,6 +101,16 @@ describe('Attributable', function() {
   it("doesn't throw error if attribute doesn't exist but `ingore_non_existent: true` is passed to updateAttributes()", function() {
     dummy.updateAttributes({ 'non_existent_attr' : 'new caption' }, { ignore_non_existent: true })
     // Doesn't throw UndefinedAttributeError
+  });
+
+  it("allows to redefine getters", function() {
+    dummy.setDefaultAttributeValues();
+    chai.expect(dummy.get("custom_getter_setter_attr")).to.equal("hello!");
+  });
+
+  it("allows to redefine setters", function() {
+    dummy.set("custom_getter_setter_attr", "hello");
+    chai.expect(dummy.get("custom_getter_setter_attr")).to.equal("hello (set)!");
   });
 
 });
