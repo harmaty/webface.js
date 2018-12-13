@@ -9,8 +9,8 @@ var promise = new Promise((resolve, reject) => { resolve(true); });
 
 // This is to avoid animator with its promises, which screws up the tests.
 class TestModalWindowComponentBehaviors extends ModalWindowComponentBehaviors {
-  show() { this.dom_element.style.display = "block"; return promise; }
-  hide() { this.dom_element.style.display = "none"; return promise; }
+  show() { return promise; }
+  hide() { return promise; }
   hideCloseButton() { this.component.findPart("close").remove(); }
 }
 
@@ -96,7 +96,7 @@ describe("ModalWindowComponent", function() {
 
     });
 
-    describe("when when background is clicked", function() {
+    describe("when background is clicked", function() {
 
       it("it hides the modal window if #close_on_background_click is true", function() {
         mw = new TestModalWindowComponent("hello world");
@@ -125,15 +125,15 @@ describe("ModalWindowComponent", function() {
       it("it hides the modal window if #close_on_escape is true", function() {
         mw      = new TestModalWindowComponent("hello world");
         var spy = chai.spy.on(mw, "behave");
-        mw.dom_element.dispatchEvent(esc_keypress);
+        document.dispatchEvent(esc_keypress);
         chai.expect(spy).to.have.been.called.with("hide");
       });
 
       it("it does nothing if #close_on_escape is false", function() {
         mw      = new TestModalWindowComponent("hello world", { close_on_escape: false });
         var spy = chai.spy.on(mw, "behave");
-        mw.dom_element.dispatchEvent(esc_keypress);
-        chai.expect(spy).to.have.been.called.with("hide");
+        document.dispatchEvent(esc_keypress);
+        chai.expect(spy).not.to.have.been.called.with("hide");
       });
 
     });
