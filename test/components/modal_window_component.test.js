@@ -5,19 +5,6 @@ import { RootComponent } from '../lib/components/root_component.js'
 import { ModalWindowComponent } from '../lib/components/modal_window_component.js'
 import { ModalWindowComponentBehaviors } from '../lib/behaviors/modal_window_component_behaviors.js'
 
-var promise = new Promise((resolve, reject) => { resolve(true); });
-
-// This is to avoid animator with its promises, which screws up the tests.
-class TestModalWindowComponentBehaviors extends ModalWindowComponentBehaviors {
-  show() { return promise; }
-  hide() { return promise; }
-  hideCloseButton() { this.component.findPart("close").remove(); }
-}
-
-class TestModalWindowComponent extends extend_as("TestModalWindowComponent").mix(ModalWindowComponent).with() {
-  static get behaviors() { return [TestModalWindowComponentBehaviors]; }
-}
-
 describe("ModalWindowComponent", function() {
 
   var mw, dom, root;
@@ -44,25 +31,25 @@ describe("ModalWindowComponent", function() {
   describe("initialization", function() {
 
     it("displays a simple text as content", function() {
-      mw = new TestModalWindowComponent("hello world");
+      mw = new ModalWindowComponent("hello world");
       chai.expect(mw.content_el.innerText).to.eq("hello world");
     });
 
     it("appends HtmlElement to content_el", function() {
       var content_el = document.createElement("div");
-      mw = new TestModalWindowComponent(content_el);
+      mw = new ModalWindowComponent(content_el);
       chai.expect(mw.content_el.children[0]).to.eq(content_el);
     });
 
     it("appends child component's dom_element to content_el", function() {
       var content_component = root.findDescendantsByRole("modal_window_content")[0];
-      mw = new TestModalWindowComponent(content_component);
+      mw = new ModalWindowComponent(content_component);
       chai.expect(mw.content_el.children[0]).to.eq(content_component.dom_element);
       chai.expect(mw.children[0]).to.eq(content_component);
     });
 
     it("is added as a child of RootComponent", function() {
-      mw = new TestModalWindowComponent("hello world");
+      mw = new ModalWindowComponent("hello world");
       mw.roles.push("modal_window")
       chai.expect(RootComponent.instance.findDescendantsByRole("modal_window")[0]).to.eql(mw);
       chai.expect(RootComponent.instance.dom_element.children).to.include(mw.dom_element);
@@ -75,19 +62,19 @@ describe("ModalWindowComponent", function() {
     describe("when close_button is clicked", function() {
 
       it("it hides the modal window if #show_close_button is true", function() {
-        mw = new TestModalWindowComponent("hello world");
+        mw = new ModalWindowComponent("hello world");
         var spy = chai.spy.on(mw, "behave");
         mw.findPart("close").dispatchEvent(new MouseEvent("click"));
         chai.expect(spy).to.have.been.called.with("hide");
       });
 
       it("it does nothing if #show_close_button is false", function() {
-        mw = new TestModalWindowComponent("hello world", { show_close_button: false });
+        mw = new ModalWindowComponent("hello world", { show_close_button: false });
         chai.expect(mw.findPart("close")).to.be.null;
       });
       
       it("removes itself from RootComponent", async function() {
-        mw = new TestModalWindowComponent("hello world", { show_close_button: true });
+        mw = new ModalWindowComponent("hello world", { show_close_button: true });
         mw.behavior_instances[0].show_hide_animation_speed = 1;
         chai.expect(RootComponent.instance.dom_element.children).to.include(mw.dom_element);
         await mw.hide();
@@ -99,14 +86,14 @@ describe("ModalWindowComponent", function() {
     describe("when background is clicked", function() {
 
       it("it hides the modal window if #close_on_background_click is true", function() {
-        mw = new TestModalWindowComponent("hello world");
+        mw = new ModalWindowComponent("hello world");
         var spy = chai.spy.on(mw, "behave");
         mw.findPart("background").dispatchEvent(new MouseEvent("click"));
         chai.expect(spy).to.have.been.called.with("hide");
       });
 
       it("it does nothing if #close_on_background_click is false", function() {
-        mw = new TestModalWindowComponent("hello world", { close_on_background_click: false });
+        mw = new ModalWindowComponent("hello world", { close_on_background_click: false });
         var spy = chai.spy.on(mw, "behave");
         mw.findPart("background").dispatchEvent(new MouseEvent("click"));
         chai.expect(spy).not.to.have.been.called.with("hide");
@@ -123,14 +110,14 @@ describe("ModalWindowComponent", function() {
       });
 
       it("it hides the modal window if #close_on_escape is true", function() {
-        mw      = new TestModalWindowComponent("hello world");
+        mw      = new ModalWindowComponent("hello world");
         var spy = chai.spy.on(mw, "behave");
         document.dispatchEvent(esc_keypress);
         chai.expect(spy).to.have.been.called.with("hide");
       });
 
       it("it does nothing if #close_on_escape is false", function() {
-        mw      = new TestModalWindowComponent("hello world", { close_on_escape: false });
+        mw      = new ModalWindowComponent("hello world", { close_on_escape: false });
         var spy = chai.spy.on(mw, "behave");
         document.dispatchEvent(esc_keypress);
         chai.expect(spy).not.to.have.been.called.with("hide");
