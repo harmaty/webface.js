@@ -24,6 +24,7 @@ import "./components/checkbox_component.test.js";
 import "./components/form_field_component.test.js";
 import "./components/numeric_form_field_component.test.js";
 import "./components/modal_window_component.test.js";
+import "./components/radio_button_component.test.js";
 
 // Behaviors
 import "./behaviors/component_behaviors.test.js";
