@@ -44,6 +44,7 @@ describe("DialogWindowComponent", function() {
     var children = Array.prototype.slice.call(dw.findPart("button_container").children);
     children.forEach((b) => {
       chai.expect(b.getAttribute("data-component-class")).to.eq("ButtonComponent");
+      chai.expect(["Yes", "No"]).to.include(b.innerText);
     });
   });
 

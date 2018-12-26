@@ -25,9 +25,5 @@ export class ContainerComponent extends extend_as("ContainerComponent").mix(Comp
 
   }
 
-  afterInitialize() {
-
-  }
-
 }
 window.webface.component_classes["ContainerComponent"] = ContainerComponent;
