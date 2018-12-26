@@ -3,7 +3,6 @@ import { extend_as       } from '../lib/utils/mixin.js'
 import { fetch_dom       } from '../test_utils.js'
 import { RootComponent } from '../lib/components/root_component.js'
 import { ModalWindowComponent } from '../lib/components/modal_window_component.js'
-import { ModalWindowComponentBehaviors } from '../lib/behaviors/modal_window_component_behaviors.js'
 
 describe("ModalWindowComponent", function() {
 
