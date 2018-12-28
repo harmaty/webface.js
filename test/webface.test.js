@@ -33,3 +33,4 @@ import "./behaviors/button_component_behaviors.test.js";
 import "./behaviors/checkbox_component_behaviors.test.js";
 import "./behaviors/form_field_component_behaviors.test.js";
 import "./behaviors/modal_window_component_behaviors.test.js";
+import "./behaviors/hint_component_behaviors.test.js";

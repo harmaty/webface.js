@@ -1,0 +1,33 @@
+<div id="root" style="width: 1000px; height: 1000px; position: absolute; top: 0; left: 0;">
+
+  <div data-anchor="role:button" id="hint_anchor_1" style="width: 10px; height: 10px; position: absolute; background-color: green;">A</div>
+
+  <div
+    data-component-class="HintComponent"
+    data-component-roles="hint"
+    data-component-attribute-properties="
+      anchor:data-anchor,
+      show_events:data-show-events,
+      force_show_events:data-force-show-events,
+      autoshow_delay:data-autoshow-delay,
+      autohide_delay:data-autohide-delay,
+      display_limit:data-display-limit,
+      hint_id:data-hint-id"
+    data-anchor="anchor_id"
+    data-show-events="mouseover"
+    data-force-show-events="click"
+    data-autohide-delay="10"
+    data-display-limit="1"
+    data-hint-id="hint1"
+    class="helpHint arrowBottomLeft"
+    style="display: none; width: 22px; height: 11px; background-color: yellow;"
+    id="hint_1"
+  >
+    <div class="content">
+      <span class="close" data-component-part="close" style="background-color: red;">C</span>
+    </div>
+
+  </div>
+
+
+</div>

@@ -41,7 +41,7 @@ describe("DialogWindowComponent", function() {
 
   it("button's dom_elements are added in to a special button container", function() {
     chai.expect(dw.findPart("button_container").children.length).to.eq(2);
-    var children = Array.prototype.slice.call(dw.findPart("button_container").children);
+    var children = Array.from(dw.findPart("button_container").children);
     children.forEach((b) => {
       chai.expect(b.getAttribute("data-component-class")).to.eq("ButtonComponent");
       chai.expect(["Yes", "No"]).to.include(b.innerText);
