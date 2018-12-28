@@ -8,9 +8,11 @@ import "./modules/validatable.test.js";
 import "./modules/component_validation.test.js";
 import "./modules/component_dom.test.js";
 import "./modules/component_heritage.test.js";
+import "./modules/auto_show_hide.test.js";
 import "./utils/map_utils.test.js";
 import "./utils/type_checker.test.js";
 import "./utils/mixin.test.js";
+import "./utils/cookies.test.js";
 import "./i18n.test.js";
 import "./logmaster.test.js";
 import "./ajax_request.test.js";
@@ -26,6 +28,7 @@ import "./components/numeric_form_field_component.test.js";
 import "./components/modal_window_component.test.js";
 import "./components/dialog_window_component.test.js";
 import "./components/radio_button_component.test.js";
+import "./components/hint_component.test.js";
 
 // Behaviors
 import "./behaviors/component_behaviors.test.js";

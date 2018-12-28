@@ -11,7 +11,7 @@ export var TestAnimator = {
       el.style.display = "block";
       el.style.opacity = "1";
       return new Promise((resolve, reject) => {
-        resolve();
+        resolve("show behavior resolved");
       });
     });
   },
@@ -21,7 +21,7 @@ export var TestAnimator = {
       el.style.display = "none";
       el.style.opacity = "0";
       return new Promise((resolve, reject) => {
-        resolve();
+        resolve("hide behavior resolved");
       });
     });
   },
@@ -31,7 +31,7 @@ export var TestAnimator = {
       el.style.display = "block";
       el.style.opacity = "1";
       return new Promise((resolve, reject) => {
-        resolve();
+        resolve("scrollDown behavior resolved");
       });
     });
   },
@@ -41,7 +41,7 @@ export var TestAnimator = {
       el.style.display = "none";
       el.style.opacity = "0";
       return new Promise((resolve, reject) => {
-        resolve();
+        resolve("scrollUp behavior resolved");
       });
     });
   },
