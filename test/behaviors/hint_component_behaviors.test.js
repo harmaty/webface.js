@@ -11,10 +11,11 @@ describe("HintComponentBehaviors", function() {
 
     dom          = (await fetch_dom("fixtures/hint_component.html")).querySelector("#root");
     dom_hint     = dom.querySelector("#hint_1");
-    dom_anchor   = dom.querySelector("#hint_anchor_1");
-    hint         = { "dom_element" : dom_hint, "anchor_el": dom_anchor, "owner_document": { "body": dom }};
+    dom_anchor   = dom.querySelector("#hint_1_anchor");
+    hint         = { "dom_element" : dom_hint, "anchor_el": dom_anchor, "constructor" : { "owner_document": { "body": dom }}};
     behaviors    = new HintComponentBehaviors(hint);
     behaviors.show_hide_animation_speed = 1;
+    behaviors.pos.base_offset = { "x" : 0, "y" : 0 };
 
     // Otherwise animations won't work!
     document.querySelector("body").appendChild(dom);
