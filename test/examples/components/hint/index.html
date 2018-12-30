@@ -1,0 +1,162 @@
+<head>
+  <script src="/lib/webface_init.js"></script>
+  <script src="/examples/components/radio_button/container_component.js" type="module"></script>
+  <script src="/examples/webface_app.js" type="module"></script>
+  <style>
+    .anchor { width: 15em; height: 5em; clear: both; margin-bottom: 1em; background-color: #aaa; padding: 1em; }
+    .helpHint { width: 10em; height: 3em; font-size: 80%; background-color: green; color: #fff; padding: 0.5em;  }
+  </style>
+</head>
+<body>
+  <div data-component-class="ContainerComponent">
+
+    <div data-component-part="hint_1_anchor" id="hint_1_anchor" class="anchor">Anchor 1</div>
+    <div data-component-property="hint_2_anchor" id="hint_2_anchor" class="anchor">Anchor 2</div>
+    <div id="hint_3_anchor" class="anchor">Anchor 3</div>
+
+    <div data-component-class="Component" data-component-roles="hint_4_anchor" id="hint_4_anchor" class="anchor">
+      Anchor 4
+    </div>
+
+    <div data-component-class="Component">
+      <div data-component-part="hint_5_anchor" id="hint_5_anchor" class="anchor">Anchor 5</div>
+    </div>
+
+
+    <!-- Hint 1, with anchor as a part of parent component -->
+    <div
+      data-component-class="HintComponent"
+      data-component-roles="hint"
+      data-component-attribute-properties="
+        anchor:data-anchor,
+        show_events:data-show-events,
+        force_show_events:data-force-show-events,
+        autoshow_delay:data-autoshow-delay,
+        autohide_delay:data-autohide-delay,
+        display_limit:data-display-limit,
+        hint_id:data-hint-id"
+      data-anchor="part:hint_1_anchor"
+      data-show-events="mouseover"
+      data-force-show-events="click"
+      data-display-limit="1"
+      data-hint-id="hint1"
+      class="helpHint arrowBottomLeft"
+      style="display: none; width: 22px; height: 11px; background-color: yellow;"
+      id="hint_1"
+    >
+      <div class="content">
+        <span class="close" data-component-part="close" style="background-color: red;">Close</span>
+        <span class="close" data-component-part="close_and_never_show" style="background-color: red;">Close and never show</span>
+        <p>This is a hint</p>
+      </div>
+    </div>
+    <!-- Hint 1 end -->
+
+    <!-- Hint 2, with anchor as a property of parent component -->
+    <div
+      data-component-class="HintComponent"
+      data-component-roles="hint"
+      data-component-attribute-properties="
+        anchor:data-anchor,
+        show_events:data-show-events,
+        force_show_events:data-force-show-events,
+        autoshow_delay:data-autoshow-delay,
+        autohide_delay:data-autohide-delay,
+        display_limit:data-display-limit,
+        hint_id:data-hint-id"
+      data-anchor="property:hint_2_anchor"
+      data-show-events="mouseover"
+      data-display-limit="1"
+      data-hint-id="hint2"
+      class="helpHint arrowBottomLeft"
+      style="display: none; width: 22px; height: 11px; background-color: yellow;"
+      id="hint_2"
+    >
+      <div class="content">
+        <span class="close" data-component-part="close" style="background-color: red;">C</span>
+      </div>
+    </div>
+    <!-- Hint 2 end -->
+
+    <!-- Hint 3, with anchor identified by id attribute -->
+    <div
+      data-component-class="HintComponent"
+      data-component-roles="hint"
+      data-component-attribute-properties="
+        anchor:data-anchor,
+        show_events:data-show-events,
+        force_show_events:data-force-show-events,
+        autoshow_delay:data-autoshow-delay,
+        autohide_delay:data-autohide-delay,
+        display_limit:data-display-limit,
+        hint_id:data-hint-id"
+      data-anchor="hint_3_anchor"
+      data-show-events="mouseover"
+      data-display-limit="1"
+      data-hint-id="hint3"
+      class="helpHint arrowBottomLeft"
+      style="display: none; width: 22px; height: 11px; background-color: yellow;"
+      id="hint_3"
+    >
+      <div class="content">
+        <span class="close" data-component-part="close" style="background-color: red;">C</span>
+      </div>
+    </div>
+    <!-- Hint 3 end -->
+
+    <!-- Hint 4, with anchor as a component -->
+    <div
+      data-component-class="HintComponent"
+      data-component-roles="hint"
+      data-component-attribute-properties="
+        anchor:data-anchor,
+        show_events:data-show-events,
+        force_show_events:data-force-show-events,
+        autoshow_delay:data-autoshow-delay,
+        autohide_delay:data-autohide-delay,
+        display_limit:data-display-limit,
+        hint_id:data-hint-id"
+      data-anchor="role:hint_4_anchor"
+      data-show-events="change1"
+      data-force-show-events="change2"
+      data-display-limit="1"
+      data-hint-id="hint4"
+      class="helpHint arrowBottomLeft"
+      style="display: none; width: 22px; height: 11px; background-color: yellow;"
+      id="hint_4"
+    >
+      <div class="content">
+        <span class="close" data-component-part="close" style="background-color: red;">C</span>
+      </div>
+    </div>
+    <!-- Hint 4 end -->
+
+    <!-- Hint 5, with anchor as a part of another component -->
+    <div
+      data-component-class="HintComponent"
+      data-component-roles="hint"
+      data-component-attribute-properties="
+        anchor:data-anchor,
+        show_events:data-show-events,
+        force_show_events:data-force-show-events,
+        autoshow_delay:data-autoshow-delay,
+        autohide_delay:data-autohide-delay,
+        display_limit:data-display-limit,
+        hint_id:data-hint-id"
+      data-anchor="role:hint_4_anchor:hint_5_anchor"
+      data-show-events="mouseover"
+      data-display-limit="2"
+      data-hint-id="hint5"
+      class="helpHint arrowBottomLeft"
+      style="display: none; width: 22px; height: 11px; background-color: yellow;"
+      id="hint_5"
+    >
+      <div class="content">
+        <span class="close" data-component-part="close" style="background-color: red;">C</span>
+      </div>
+    </div>
+    <!-- Hint 5 end -->
+
+
+  </div>
+</body>

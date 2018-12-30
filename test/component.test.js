@@ -242,7 +242,9 @@ describe("Component", function() {
       chai.expect(mousedown_spy).not.to.have.been.called.once;
       chai.expect(mouseup_handler_spy).to.have.been.called.once;
       chai.expect(mousedown_handler_spy).to.have.been.called.once;
-      chai.expect(component.native_events).to.eql(["mousedown", "!mouseup", "part1.click", "!part2.mouseup", "!part2.mousedown", "click"]);
+      chai.expect(component.native_events).to.include("mousedown", "!mouseup", "part1.click", "!part2.mouseup", "!part2.mousedown", "click");
+      if(component.click_event.includes("touchend"))
+        chai.expect(component.native_events).to.include("touchend");
     });
 
     it("cancels an event listener based on a name", function() {
