@@ -49,7 +49,6 @@ app.get(/.+/, function (req, res) {
       if(fn.endsWith(".js"))
         res.type("application/javascript");
       else if(fn.endsWith(".svg")) {
-        console.log(fn);
         res.type("image/svg+xml");
       }
       else if(fn.endsWith(".css"))
