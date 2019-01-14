@@ -9,7 +9,7 @@ describe("SimpleNotificationComponentBehaviors", function() {
 
   beforeEach(async function() {
     dom = (await fetch_dom("fixtures/simple_notification_component.html")).querySelector("#root");
-    sn  = dom.querySelector("#simple_notification_template")
+    sn  = dom.querySelector('[data-component-class="SimpleNotificationComponent"]');
     behaviors    = new SimpleNotificationComponentBehaviors({
       "dom_element" : sn,
       "findPart": function(p) {
@@ -37,13 +37,13 @@ describe("SimpleNotificationComponentBehaviors", function() {
     behaviors.show();
     await behaviors.hide();
     chai.expect(sn.style.display).to.equal("none");
-    chai.expect(dom.querySelector("#simple_notification_template")).to.be.null;
+    chai.expect(dom.querySelector(".simpleNotificationTemplate")).to.be.null;
   });
 
   it("hides the close button if it exists", function() {
-    chai.expect(dom.querySelector("#close_notification")).not.to.be.null;
+    chai.expect(sn.querySelector(".closeNotification")).not.to.be.null;
     behaviors.hideCloseButton();
-    chai.expect(dom.querySelector("#close_notification")).to.be.null;
+    chai.expect(sn.querySelector(".closeNotification")).to.be.null;
   });
 
 });

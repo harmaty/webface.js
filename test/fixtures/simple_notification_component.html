@@ -1,9 +1,31 @@
 <div id="root" style="width: 1000px; height: 1000px; position: absolute; top: 0; left: 0;">
 
-  <div id="simple_notification_template" data-component-class="SimpleNotification" data-component-attribute-properties="autohide_delay,permanent,container_selector" data-component-roles="simple_notification" style="display: none;">
+  <div data-component-class="Component" data-component-roles="simple_notifications_container"></div>
+
+  <!-- Automatically loaded simple notification 1 -->
+  <div data-component-class="SimpleNotificationComponent" data-component-attribute-properties="autohide_delay,permanent,container_role" data-component-roles="simple_notification" style="display: none;" data-autohide-delay="1" data-permanent="false" data-container-role="simple_notifications_container">
     <div class="container">
+      <span class="closeNotification" data-component-part="close">close</span>
       <div class="message" data-component-property="message" data-component-part="message">
-        <span id="close_notification" data-component-part="close">close</span>
+        Notification 1
+      </div>
+    </div>
+  </div>
+
+  <!-- Automatically loaded simple notification 2 -->
+  <div data-component-class="SimpleNotificationComponent" data-component-attribute-properties="autohide_delay,permanent,container_role" data-component-roles="simple_notification" style="display: none;" data-permanent="false" data-container-role="simple_notifications_container">
+    <div class="container">
+      <span class="closeNotification" data-component-part="close">close</span>
+      <div class="message" data-component-property="message" data-component-part="message">
+        Notification 2
+      </div>
+    </div>
+  </div>
+
+  <div data-component-template="SimpleNotificationComponent" data-component-attribute-properties="autohide_delay,permanent,container_role" data-component-roles="simple_notification" style="display: none;">
+    <div class="container">
+      <span data-component-part="close">close</span>
+      <div class="message" data-component-property="message" data-component-part="message">
       </div>
     </div>
   </div>

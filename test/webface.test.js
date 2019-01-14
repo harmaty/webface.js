@@ -29,6 +29,7 @@ import "./components/modal_window_component.test.js";
 import "./components/dialog_window_component.test.js";
 import "./components/radio_button_component.test.js";
 import "./components/hint_component.test.js";
+import "./components/simple_notification_component.test.js";
 
 // Behaviors
 import "./behaviors/component_behaviors.test.js";
