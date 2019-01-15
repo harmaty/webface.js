@@ -14,6 +14,9 @@ describe("SimpleNotificationComponentBehaviors", function() {
       "dom_element" : sn,
       "findPart": function(p) {
         return sn.querySelector(`[data-component-part="${p}"]`);
+      },
+      "get": function(attr_name) {
+          if(attr_name == "message_type") return "neutral";
       }
     });
     behaviors.show_hide_animation_speed = 1;
