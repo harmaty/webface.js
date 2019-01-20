@@ -30,7 +30,6 @@ describe("SimpleNotificationComponent", function() {
 
   it("hides itself automatically after a autodisplay_delay seconds pass", async function() {
     chai.expect(notifications[0].visible).to.be.true;
-    console.log(notifications[0].get("autohide_delay"));
     await notifications[0].autohide_promise;
     chai.expect(notifications[0].visible).to.be.false;
   });

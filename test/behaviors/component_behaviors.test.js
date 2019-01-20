@@ -108,9 +108,9 @@ describe("ComponentBehaviors", function() {
   it("switches block visibility on and/off", function() {
     var block = new DOMParser().parseFromString('<div id="part"></div>', "text/html").documentElement.querySelector("body>div");
     dom_element.append(block);
-    behaviors._switchBlockVisibilityIfExists("#part", "hide");
+    behaviors._toggleElementVisibilityIfExists("#part", "hide");
     chai.expect(block.style.display).to.equal("none");
-    behaviors._switchBlockVisibilityIfExists("#part", "show");
+    behaviors._toggleElementVisibilityIfExists("#part", "show");
     chai.expect(block.style.display).to.equal("block");
   });
 
