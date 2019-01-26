@@ -33,6 +33,16 @@ app.get("/ajax_test", function (req, res, next) {
   res.end(JSON.stringify(req.query));
 });
 
+app.get("/ajax_test_string", function (req, res, next) {
+  res.type("text/plaintext");
+  res.end("hello world");
+});
+
+app.get("/select_component_options", function (req, res, next) {
+  res.type("application/json");
+  res.end('{ "key1": "b - fetched key 1", "key2": "c - fetched key 2", "key3": "a - fetched key 3" }');
+});
+
 app.get(/.+/, function (req, res) {
   var fn = req.path.substring(1);
   if(fn.endsWith("/")) fn = fn.slice(0, -1);
