@@ -187,7 +187,9 @@ describe("SelectComponent", function() {
 
     it("closes selectbox when ESC is pressed", function() {
       var spies = [ chai.spy.on(select, "behave"), chai.spy.on(select, "_toggleOpenedStatus") ];
-      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27, target: select.dom_element }));
+      var e = new KeyboardEvent('keydown', { keyCode: 27 });
+      select.dom_element.dispatchEvent(e);
+      select._processKeyDownEvent(e);
       chai.expect(spies[0]).to.have.been.called.once.with("close");
       chai.expect(spies[1]).to.have.been.called.once;
     });
@@ -197,11 +199,13 @@ describe("SelectComponent", function() {
       var setPrevValue_spy    = chai.spy.on(select, "setPrevValue");
 
       select.opened = false;
-      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 38 }));
+      var e = new KeyboardEvent('keydown', { keyCode: 38 });
+      select.dom_element.dispatchEvent(e);
+      select._processKeyDownEvent(e);
       chai.expect(setPrevValue_spy).to.have.been.called.once;
 
       select.opened = true;
-      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 38 }));
+      select._processKeyDownEvent(e);
       chai.expect(focusPrevOption_spy).to.have.been.called.once;
     });
 
@@ -210,18 +214,24 @@ describe("SelectComponent", function() {
       var setNextValue_spy    = chai.spy.on(select, "setNextValue");
 
       select.opened = false;
-      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 }));
+      var e = new KeyboardEvent('keydown', { keyCode: 40 });
+      select.dom_element.dispatchEvent(e);
+      select._processKeyDownEvent(e);
       chai.expect(setNextValue_spy).to.have.been.called.once;
 
       select.opened = true;
-      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 40 }));
+      select._processKeyDownEvent(e);
       chai.expect(focusNextOption_spy).to.have.been.called.once;
     });
 
     it("sets focus and toggles when ENTER or SPACE is pressed", function() {
       var setFocusedAndToggle_spy = chai.spy.on(select, "setFocusedAndToggle");
-      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 13 }));
-      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 32 }));
+      var e1 = new KeyboardEvent('keydown', { keyCode: 13 });
+      var e2 = new KeyboardEvent('keydown', { keyCode: 32 });
+      select.dom_element.dispatchEvent(e1);
+      select.dom_element.dispatchEvent(e2);
+      select._processKeyDownEvent(e1);
+      select._processKeyDownEvent(e2);
       chai.expect(setFocusedAndToggle_spy).to.have.been.called.twice;
     });
 
