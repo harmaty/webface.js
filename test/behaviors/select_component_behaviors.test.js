@@ -160,8 +160,7 @@ describe("SelectComponentBehaviors", function() {
     // 11px here Because scroll top != the bottom of the block.
     // We have 4 items in our options list, each 10px. 3 are visible,
     // therefore scrolling back just 10px down would reveal the bottom item.
-    // 1px is added for unknown reasons.
-    chai.expect(behaviors.options_container.scrollTop).to.equal(11);
+    chai.expect(behaviors.options_container.scrollTop).to.equal(10);
 
     behaviors.component.focused_option_id = 1;
     behaviors._scroll();
