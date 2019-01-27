@@ -20,12 +20,6 @@ describe("SelectComponent", function() {
     chai.expect(select.options.values).to.eql(["-- Choose payment method --", "Bank wire", "Cash", "Cryptocurrency"]);
   });
 
-  it("updates options in DOM so they correspond to the ones stored in .options", function() {
-    select.options.addTail("new_option", "new option value");
-    select.updateOptionsInDom();
-    chai.expect(dom.querySelector('[data-option-value="new_option"]')).not.to.be.null;
-  });
-
   it("gets next value for an option based on the current one", function() {
     chai.expect(select.getNextValue("Cash")).to.eq("Cryptocurrency");
     chai.expect(select.getNextValue("Cryptocurrency")).to.be.undefined;
