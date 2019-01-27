@@ -14,7 +14,7 @@ describe("AjaxRequest", async function() {
 
   it("has a shortcut method for GET and POST ajax requests", async function() {
     var get_result, post_result;
-    AjaxRequest.get(url,  { "hello" : "world" }).then((data)=> get_result  = data);
+    await AjaxRequest.get(url,  { "hello" : "world" }).then((data)=> get_result  = data);
     await AjaxRequest.post(url, { "hello" : "world" }).then((data)=> post_result  = data);
     chai.expect(get_result).to.eql({ "hello" : "world" });
     chai.expect(post_result).to.eql({ "hello" : "world" });

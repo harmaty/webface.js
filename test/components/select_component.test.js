@@ -1,17 +1,19 @@
 import '../webface_init.js'
 import { extend_as       } from '../lib/utils/mixin.js'
 import { fetch_dom       } from '../test_utils.js'
+import { RootComponent } from '../lib/components/root_component.js'
 import { SelectComponent } from '../lib/components/select_component.js'
 
 describe("SelectComponent", function() {
 
-  var dom, select;
+  var dom, select, root;
 
   beforeEach(async function() {
-    dom  = (await fetch_dom("fixtures/select_component.html")).querySelector("#selectbox");
-    select = new SelectComponent();
-    select.dom_element = dom;
-    select.afterInitialize();
+    dom  = (await fetch_dom("fixtures/select_component.html"))
+    root = new RootComponent();
+    root.dom_element = dom.querySelector("#root");
+    root.initChildComponents();
+    select = root.findChildrenByRole("selectbox")[0];
   });
 
   it("reads options from dom", function() {
@@ -185,7 +187,7 @@ describe("SelectComponent", function() {
 
     it("closes selectbox when ESC is pressed", function() {
       var spies = [ chai.spy.on(select, "behave"), chai.spy.on(select, "_toggleOpenedStatus") ];
-      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }));
+      select.dom_element.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27, target: select.dom_element }));
       chai.expect(spies[0]).to.have.been.called.once.with("close");
       chai.expect(spies[1]).to.have.been.called.once;
     });
