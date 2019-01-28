@@ -32,7 +32,13 @@ describe("ConfirmableButtonComponent", function() {
     chai.expect(root.findAllDescendantInstancesOf(DialogWindowComponent).length).to.eq(1);
   });
 
-  it("does nothing if NO is pressed in the dialog window", async function() {
+  it("sets the DialogWindowComponent content to the value of the confirmation attribute", function() {
+    button.dom_element.dispatchEvent(click_event);
+    chai.expect(root.findAllDescendantInstancesOf(DialogWindowComponent)[0].text).to.eq("Are you sure?");
+  });
+
+  it("publishes click_and_deny event if NO was pressed in the dialog window", async function() {
+    var spy = chai.spy.on(button, "publishEvent");
     button.dom_element.dispatchEvent(click_event);
     var result;
     var dialog_window = root.findAllDescendantInstancesOf(DialogWindowComponent)[0];
@@ -40,9 +46,11 @@ describe("ConfirmableButtonComponent", function() {
     dialog_window.children[1].dom_element.dispatchEvent(click_event);
     await dialog_window.promise;
     chai.expect(result).to.be.false;
+    chai.expect(spy).to.have.been.called.with("click_and_deny");
   });
 
   it("does something if YES is pressed in the dialog window", async function() {
+    var spy = chai.spy.on(button, "publishEvent");
     button.dom_element.dispatchEvent(click_event);
     var result;
     var dialog_window = root.findAllDescendantInstancesOf(DialogWindowComponent)[0];
@@ -50,6 +58,7 @@ describe("ConfirmableButtonComponent", function() {
     dialog_window.children[0].dom_element.dispatchEvent(click_event);
     await dialog_window.promise;
     chai.expect(result).to.be.true;
+    chai.expect(spy).to.have.been.called.with("click_and_confirm");
   });
 
   it("submits the form if confirmable_button is a form submit button", async function() {
