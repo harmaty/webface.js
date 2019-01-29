@@ -33,6 +33,7 @@ import "./components/hint_component.test.js";
 import "./components/simple_notification_component.test.js";
 import "./components/select_component.test.js";
 import "./components/confirmable_button_component.test.js";
+import "./components/context_menu_component.test.js";
 
 // Behaviors
 import "./behaviors/component_behaviors.test.js";
