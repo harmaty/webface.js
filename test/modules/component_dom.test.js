@@ -6,7 +6,7 @@ import { ComponentDom } from '../lib/modules/component_dom.js'
 class ComponentDomClass extends extend_as("ComponentDomClass").mixins(ComponentDom,Attributable) {
   constructor() {
     super();
-    this.attribute_names = ["property1", "property2", "property3", "writeable_property1", "writeable_property2", "writeable_property3"];
+    this.attribute_names = ["property1", "property2", "property3", "writeable_property1", "writeable_property2", "writeable_property3" , "property_without_html_attribute"];
   }
 }
 
@@ -81,9 +81,12 @@ describe('ComponentDom', function() {
   });
 
   it("gets html attribute name for a property from data-component-attribute-names format", function() {
+    component_dom.use_default_attrs_for_properties_with_no_corresponding_html_attrs = false;
     chai.expect(component_dom._getHtmlAttributeNameForProperty("property1:data-property1,property2:data-property2", "property1")).to.equal("data-property1")
     chai.expect(component_dom._getHtmlAttributeNameForProperty("property1:data-property1,property2:data-property2", "property2")).to.equal("data-property2")
     chai.expect(component_dom._getHtmlAttributeNameForProperty("property1:data-property1,property2:data-property2", "property3")).to.be.null;
+    component_dom.use_default_attrs_for_properties_with_no_corresponding_html_attrs = true;
+    chai.expect(component_dom._getHtmlAttributeNameForProperty("property1:data-property1,property2:data-property2", "property3")).to.equal("data-property3")
   });
 
   it("converts string values into appropriate types", function() {
@@ -133,6 +136,10 @@ describe('ComponentDom', function() {
     component_dom.set("writeable_property2", "hello world 2");
     component_dom._writePropertyToNode("writeable_property2");
     chai.expect(attr_property_el.getAttribute("data-writeable-property2")).to.equal("hello world 2");
+
+    component_dom.set("property_without_html_attribute", "hello world");
+    component_dom._writePropertyToNode("property_without_html_attribute");
+    chai.expect(component_dom.dom_element.getAttribute("data-property-without-html-attribute")).to.equal("hello world");
   });
 
   it("finds whether the dom_element's descendants have a particular node or if it itself is this node", function() {
