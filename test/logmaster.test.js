@@ -56,8 +56,7 @@ describe("Logmaster", function() {
       // which is async and we want it to stay that way. So it's just very inconvenient to test it. Let's
       // just make sure no errors are raised with this test.
     });
-    
+
   });
 
-  
 });
