@@ -18,7 +18,7 @@ app.get("/", function (req, res) {
   });
 })
 
-app.post("/report_error", function (req, res, next) {
+app.post("/report_webface_error", function (req, res, next) {
   res.type("text/plain");
   res.end("OK");
 });
