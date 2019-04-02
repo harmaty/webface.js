@@ -26,7 +26,7 @@ export var TestAnimator = {
     });
   },
 
-  "scrollDown": function(elements, ms, { display_value="block" }={}) {
+  "slideDown": function(elements, ms, { display_value="block" }={}) {
     return this._applyToCollection(elements, (el) => {
       el.style.display = "block";
       el.style.opacity = "1";
@@ -36,7 +36,7 @@ export var TestAnimator = {
     });
   },
 
-  "scrollUp": function(elements, ms) {
+  "slideUp": function(elements, ms) {
     return this._applyToCollection(elements, (el) => {
       el.style.display = "none";
       el.style.opacity = "0";
