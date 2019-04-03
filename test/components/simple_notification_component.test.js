@@ -64,8 +64,8 @@ describe("SimpleNotificationComponent", function() {
   });
 
   it("doesn't show two notifications with identical messages", async function() {
-    var sn1 = new SimpleNotificationComponent({ message: "hello world", message_id: "hw1" });
-    var sn2 = new SimpleNotificationComponent({ message: "hello world", message_id: "hw2" });
+    var sn1 = SimpleNotificationComponent.createFromTemplate({ attrs: { message: "hello world", message_id: "hw1" }});
+    var sn2 = SimpleNotificationComponent.createFromTemplate({ attrs: { message: "hello world", message_id: "hw2" }});
     await sn1.show_promise;
     await sn2.show_promise;
     var visible_notifications = RootComponent.instance.findChildrenByRole("simple_notifications_container")[0].children;

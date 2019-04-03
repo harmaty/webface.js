@@ -7,19 +7,19 @@ export class ContainerComponent extends extend_as("ContainerComponent").mix(Comp
     super();
 
     this.event_handlers.add({ event: "click", role: "regular_notification", handler: (self, child) => {
-      new SimpleNotificationComponent({ message: "Regular notification"})
+      SimpleNotificationComponent.createFromTemplate({ attrs: { message: "Regular notification"}});
     }});
 
     this.event_handlers.add({ event: "click", role: "warning_notification", handler: (self, child) => {
-      new SimpleNotificationComponent({ message: "Warning notification", message_type: "warning" })
+      SimpleNotificationComponent.createFromTemplate({ attrs: { message: "Warning notification", message_type: "warning" }});
     }});
 
     this.event_handlers.add({ event: "click", role: "permanent_notification", handler: (self, child) => {
-      new SimpleNotificationComponent({ message: "Permanent notification", message_type: "warning", permanent: true })
+      SimpleNotificationComponent.createFromTemplate({ attrs: { message: "Permanent notification", message_type: "warning", permanent: true }});
     }});
 
     this.event_handlers.add({ event: "click", role: "duplicatable_permanent_notification", handler: (self, child) => {
-      new SimpleNotificationComponent({ message: "Duplicatable permanent notification", message_type: "warning", permanent: true, ignore_duplicates: false })
+      SimpleNotificationComponent.createFromTemplate({ attrs: { message: "Duplicatable permanent notification", message_type: "warning", permanent: true, ignore_duplicates: false }});
     }});
 
   }
