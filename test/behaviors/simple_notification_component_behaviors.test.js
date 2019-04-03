@@ -21,6 +21,10 @@ describe("SimpleNotificationComponentBehaviors", function() {
     });
     behaviors.show_hide_animation_speed = 1;
     behaviors.pos.base_offset = { "x" : 0, "y" : 0 };
+    behaviors.component.get = function(attr) {
+      if(attr == "show_behavior")      return "show";
+      else if(attr == "hide_behavior") return "hide";
+    }
 
     // Otherwise animations won't work!
     document.querySelector("body").appendChild(dom);

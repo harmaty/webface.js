@@ -48,7 +48,7 @@ describe("Component", function() {
       component.ignore_misbehavior = false;
       chai.expect( () => component.behave("hello1")).to.throw();
     });
-    
+
   });
 
   describe("I18n", function() {
@@ -290,6 +290,10 @@ describe("Component", function() {
     chai.expect(child.root_component).to.equal(root);
     chai.expect(component.root_component).to.equal(root);
     chai.expect(root.root_component).to.equal(root);
+  });
+
+  it("creates a dom element from a template with a custom name", function() {
+    
   });
 
 });
