@@ -307,7 +307,7 @@ describe("Component", function() {
     });
 
     it("uses RootComponent as a default parent to assign to", function() {
-      var dummy = DummyComponent.createFromTemplate();
+      var dummy = DummyComponent.create();
       chai.expect(RootComponent.instance.children).to.include(dummy);
     });
 
