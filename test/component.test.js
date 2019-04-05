@@ -12,7 +12,7 @@ class DummyComponent extends extend_as("DummyComponent").mix(Component).with() {
   static get behaviors() { return [DummyBehaviors]; }
   constructor(attrs=null) {
     super(attrs);
-    this.attribute_names = ["caption"];
+    this.attribute_names = ["caption", "attr1", "attr2"];
   }
 }
 
@@ -282,6 +282,34 @@ describe("Component", function() {
 
   });
 
+  describe("creating component from a template", function() {
+
+    var root;
+
+    beforeEach(function() {
+      root  = new RootComponent();
+      root.dom_element = dom
+    });
+
+    it("creates a dom element from a template with a custom name", function() {
+      var dummy1 = DummyComponent.createFromTemplate({ container: root });
+      var dummy2 = DummyComponent.createFromTemplate({ name: "custom_dummy", container: root });
+      chai.expect(dummy1.findPart("part1").innerText).to.equal("part1");
+      chai.expect(dummy2.findPart("custom_dummy_part").innerText).to.equal("custom dummy part");
+    });
+
+    it("assigns attrs to html attrs (skipping the undefeined ones), then reads attrs values from DOM", function() {
+      var dummy = DummyComponent.createFromTemplate({ container: root, attrs: { attr1: "hi" }});
+      chai.expect(dummy.get("attr1")).to.equal("hi");
+      chai.expect(dummy.get("attr2")).to.equal("hello");
+    });
+
+    it("uses RootComponent as a default parent to assign to", function() {
+      
+    });
+
+  });
+
   it("gets root component", function() {
     var child = new DummyComponent();
     var root  = new RootComponent();
@@ -290,15 +318,6 @@ describe("Component", function() {
     chai.expect(child.root_component).to.equal(root);
     chai.expect(component.root_component).to.equal(root);
     chai.expect(root.root_component).to.equal(root);
-  });
-
-  it("creates a dom element from a template with a custom name", function() {
-    var root  = new RootComponent();
-    root.dom_element = dom
-    var dummy1 = DummyComponent.createFromTemplate({ container: root });
-    var dummy2 = DummyComponent.createFromTemplate({ name: "custom_dummy", container: root });
-    chai.expect(dummy1.findPart("part1").innerText).to.equal("part1");
-    chai.expect(dummy2.findPart("custom_dummy_part").innerText).to.equal("custom dummy part");
   });
 
 });
