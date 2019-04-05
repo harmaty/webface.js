@@ -288,7 +288,9 @@ describe("Component", function() {
 
     beforeEach(function() {
       root  = new RootComponent();
-      root.dom_element = dom
+      RootComponent.instance = root;
+      root.dom_element = dom;
+      window.webface["root_component"] = root;
     });
 
     it("creates a dom element from a template with a custom name", function() {
@@ -305,7 +307,8 @@ describe("Component", function() {
     });
 
     it("uses RootComponent as a default parent to assign to", function() {
-      
+      var dummy = DummyComponent.createFromTemplate();
+      chai.expect(RootComponent.instance.children).to.include(dummy);
     });
 
   });
