@@ -295,7 +295,7 @@ describe("Component", function() {
 
     it("creates a dom element from a template with a custom name", function() {
       var dummy1 = DummyComponent.createFromTemplate({ container: root });
-      var dummy2 = DummyComponent.createFromTemplate({ name: "custom_dummy", container: root });
+      var dummy2 = DummyComponent.createFromTemplate({ template_name: "custom_dummy", container: root });
       chai.expect(dummy1.findPart("part1").innerText).to.equal("part1");
       chai.expect(dummy2.findPart("custom_dummy_part").innerText).to.equal("custom dummy part");
     });
